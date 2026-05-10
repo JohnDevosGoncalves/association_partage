@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/lib/ThemeContext";
 import { StarField } from "@/components/ui/StarField";
+import { CustomCursor } from "@/components/ui/CustomCursor";
 import {
   SITE_URL,
   SITE_NAME,
@@ -158,6 +159,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider>
+          <CustomCursor />
           <StarField />
           {children}
         </ThemeProvider>
