@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Cormorant_Garamond, Geist } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/lib/ThemeContext";
 import { StarField } from "@/components/ui/StarField";
-import { CustomCursor } from "@/components/ui/CustomCursor";
 import {
   SITE_URL,
   SITE_NAME,
@@ -22,8 +21,8 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+const geist = Geist({
+  variable: "--font-geist",
   subsets: ["latin", "latin-ext"],
   display: "swap",
 });
@@ -140,7 +139,7 @@ export default function RootLayout({
     <html
       lang="fr"
       data-theme="day"
-      className={`${cormorant.variable} ${inter.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${geist.variable} h-full antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
@@ -159,8 +158,9 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider>
-          <CustomCursor />
           <StarField />
+          {/* Grain overlay global — fixed pour ne pas re-paint au scroll */}
+          <div className="grain-overlay" aria-hidden="true" />
           {children}
         </ThemeProvider>
       </body>

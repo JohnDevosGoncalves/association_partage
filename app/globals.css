@@ -31,7 +31,12 @@
 
   /* — Polices — */
   --font-serif: var(--font-cormorant), "Times New Roman", serif;
-  --font-sans: var(--font-inter), "Helvetica Neue", sans-serif;
+  --font-sans: var(--font-geist), "Helvetica Neue", sans-serif;
+
+  /* — Easings premium (cinétiques) — */
+  --ease-quintet: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-decel: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 @layer base {
@@ -58,9 +63,24 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     transition:
       background-color 0.8s ease,
       color 0.8s ease;
+  }
+
+  /* Typographie : balance pour les titres (text-wrap balance évite les
+     mots orphelins en fin de ligne) */
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Tabular figures par défaut sur les <dt> et .tabular utilisés dans les stats */
+  dt, .tabular {
+    font-variant-numeric: tabular-nums;
   }
 
   /* Voile global appliqué aux sections en mode nuit. Les sections gardent
@@ -144,10 +164,101 @@
   animation: star-twinkle 3s ease-in-out infinite;
 }
 
+/* ============================================================
+   PREMIUM PATTERNS (taste-skill + soft-skill)
+   ============================================================ */
+
+/* Grain overlay global — fixé, non-scrollable, non-cliquable.
+   Ajoute la "matière" qui distingue un site premium d'un site flat. */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");
+}
+
+/* Double-bezel architecture — outer shell + inner core (per soft-skill §4A) */
+.bezel-shell {
+  background:
+    linear-gradient(135deg, rgba(232, 226, 212, 0.4), rgba(232, 226, 212, 0.1));
+  padding: 6px;
+  border-radius: 2rem;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.5) inset,
+    0 0 0 1px rgba(26, 26, 46, 0.06);
+  transition: transform 0.7s var(--ease-quintet), box-shadow 0.7s var(--ease-quintet);
+}
+.bezel-shell:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.55) inset,
+    0 0 0 1px rgba(26, 26, 46, 0.08),
+    0 30px 60px -25px rgba(27, 58, 91, 0.18);
+}
+.bezel-core {
+  position: relative;
+  background: var(--color-bridge-cream);
+  border-radius: calc(2rem - 6px);
+  box-shadow: 0 1px 1px rgba(255, 255, 255, 0.5) inset;
+  overflow: hidden;
+}
+
+/* Variant "atlas" pour les sections chaudes */
+.bezel-shell.bezel-atlas {
+  background:
+    linear-gradient(135deg, rgba(244, 228, 193, 0.6), rgba(232, 163, 61, 0.15));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 0 0 1px rgba(139, 58, 42, 0.08);
+}
+.bezel-shell.bezel-atlas:hover {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.65) inset,
+    0 0 0 1px rgba(139, 58, 42, 0.12),
+    0 30px 60px -25px rgba(200, 85, 61, 0.25);
+}
+
+/* Variant "loire" pour les sections froides */
+.bezel-shell.bezel-loire {
+  background:
+    linear-gradient(135deg, rgba(241, 236, 223, 0.6), rgba(122, 156, 184, 0.15));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 0 0 1px rgba(27, 58, 91, 0.08);
+}
+
+/* Reveal scroll-driven utility — aligné avec WordReveal */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(40px);
+  filter: blur(8px);
+  transition:
+    opacity 0.9s var(--ease-quintet),
+    transform 0.9s var(--ease-quintet),
+    filter 0.9s var(--ease-quintet);
+}
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
 /* Accessibilité : respecter prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   .morph-bridge,
   .star-twinkle {
     animation: none;
+  }
+  .reveal-on-scroll {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+  .bezel-shell:hover {
+    transform: none;
   }
 }

@@ -3,124 +3,168 @@
 import { motion } from "framer-motion";
 import { TIMELINE } from "@/lib/data/timeline";
 import { fadeInUp } from "@/lib/animations";
+import { EyebrowBadge } from "@/components/ui/EyebrowBadge";
 import clsx from "clsx";
 
 /**
- * Section "Histoire" — du Sri Lanka 2015 à aujourd'hui.
- * Timeline verticale avec couleurs qui basculent du froid (Loire) au chaud (Atlas).
+ * Histoire — timeline éditoriale, left-aligned (anti-center bias).
  *
- * Mobile  : ligne à gauche (16px), pastilles à 16px, contenu à droite.
- * Desktop : ligne centrale, alternance gauche/droite.
+ * Refonte (taste-skill + soft-skill) :
+ *  - En-tête asymétrique split (eyebrow + H2 gauche, intro droite)
+ *  - Timeline avec rail vertical à gauche, événements en cards textuelles
+ *  - Année en typographie display extralight
+ *  - Custom cubic-bezier pour reveal
+ *  - Tabular-nums sur les années
+ *  - Hiérarchie : événement pivot 2015 et 2021 en TAILLE LARGER
  */
 export function HistoireSection() {
+  // Indice des événements pivots (qui méritent un poids visuel supplémentaire)
+  const PIVOT_INDICES = new Set([0, 2]); // 2015 fondation, 2021 Maison Bledi
+
   return (
     <section
       id="histoire"
-      className="relative py-16 md:py-28 px-5 md:px-6 bg-bridge-cream overflow-hidden"
+      className="relative py-24 md:py-32 lg:py-40 px-5 md:px-8 lg:px-12 overflow-hidden bg-bridge-cream"
     >
-      {/* Décor : courbes Loire en filigrane */}
-      <svg
-        className="absolute top-0 right-0 w-[400px] md:w-[600px] h-[400px] md:h-[600px] opacity-[0.06]"
-        viewBox="0 0 400 400"
-        aria-hidden="true"
-      >
-        <circle cx="200" cy="200" r="150" stroke="var(--color-loire-deep)" strokeWidth="1" fill="none" />
-        <circle cx="200" cy="200" r="110" stroke="var(--color-loire-deep)" strokeWidth="1" fill="none" />
-        <circle cx="200" cy="200" r="70" stroke="var(--color-loire-deep)" strokeWidth="1" fill="none" />
-      </svg>
+      <div className="relative max-w-[1400px] mx-auto">
+        {/* Header en split asymétrique */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 mb-16 md:mb-24">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeInUp}
+            className="lg:col-span-7"
+          >
+            <EyebrowBadge variant="loire" className="mb-5">
+              Le voyage commence en 2015
+            </EyebrowBadge>
+            <h2 className="font-serif font-light text-bridge-ink leading-[0.95] text-4xl md:text-6xl lg:text-7xl tracking-[-0.02em]">
+              Une{" "}
+              <em className="italic font-extralight text-atlas-clay">
+                histoire
+              </em>{" "}
+              de partage
+            </h2>
+          </motion.div>
 
-      <div className="relative max-w-5xl mx-auto">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          className="text-center mb-12 md:mb-20"
-        >
-          <p className="text-[0.65rem] md:text-xs uppercase tracking-[0.3em] md:tracking-[0.4em] text-loire-deep font-sans font-medium">
-            Le voyage commence en 2015
-          </p>
-          <h2 className="font-serif text-4xl md:text-6xl text-bridge-ink mt-3 md:mt-4 leading-tight">
-            Une <em className="italic text-atlas-clay">histoire</em> de partage
-          </h2>
-          <p className="mt-5 md:mt-6 text-base md:text-lg text-bridge-ink/70 max-w-2xl mx-auto leading-relaxed">
+          <motion.p
+            initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.32, 0.72, 0, 1] }}
+            className="lg:col-span-5 lg:pt-10 text-base md:text-lg text-bridge-ink/70 max-w-[55ch] leading-[1.6] font-light"
+          >
             Tout commence à Orléans, au bord de la Loire, par un geste simple :
             offrir à des enfants l'accès à l'école. Dix ans plus tard, ce geste
             est devenu un pont entre la France, le Sri Lanka et le Maroc.
-          </p>
-        </motion.div>
+          </motion.p>
+        </div>
 
-        <div className="relative">
-          {/* Ligne verticale — à gauche sur mobile, centrée sur desktop */}
+        {/* Timeline */}
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-x-16 gap-y-16 md:gap-y-24">
+          {/* Rail vertical à gauche sur desktop */}
           <div
-            className="absolute top-0 bottom-0 w-px left-4 md:left-1/2 md:-translate-x-1/2"
-            style={{
-              background:
-                "linear-gradient(to bottom, var(--color-loire-deep), var(--color-loire-stream), var(--color-atlas-ochre), var(--color-atlas-saffron))",
-            }}
+            className="hidden lg:block lg:col-span-3 lg:row-span-full relative"
             aria-hidden="true"
-          />
+          >
+            <div className="sticky top-32 h-[500px] flex items-start justify-center">
+              <div
+                className="w-px h-full"
+                style={{
+                  background:
+                    "linear-gradient(to bottom, var(--color-loire-deep) 0%, var(--color-loire-stream) 30%, var(--color-atlas-ochre) 60%, var(--color-atlas-saffron) 100%)",
+                }}
+              />
+            </div>
+          </div>
 
-          <ul className="space-y-12 md:space-y-24">
+          {/* Liste événements */}
+          <ol className="lg:col-span-9 space-y-16 md:space-y-24">
             {TIMELINE.map((event, i) => {
-              const isLeft = i % 2 === 0;
-              const accentClass =
+              const isPivot = PIVOT_INDICES.has(i);
+              const accentClasses =
                 event.side === "loire"
-                  ? "text-loire-deep border-loire-deep"
+                  ? { text: "text-loire-deep", bg: "bg-loire-deep/60" }
                   : event.side === "atlas"
-                    ? "text-atlas-clay border-atlas-clay"
-                    : "text-atlas-ochre border-atlas-ochre";
-              const dotColor =
-                event.side === "loire"
-                  ? "var(--color-loire-deep)"
-                  : event.side === "atlas"
-                    ? "var(--color-atlas-clay)"
-                    : "var(--color-atlas-ochre)";
+                    ? { text: "text-atlas-clay", bg: "bg-atlas-clay/60" }
+                    : { text: "text-atlas-ochre", bg: "bg-atlas-ochre/60" };
               return (
                 <motion.li
                   key={event.year}
-                  initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+                  whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.8, delay: i * 0.1 }}
-                  className={clsx(
-                    "relative flex flex-col md:flex-row md:items-center gap-6",
-                    isLeft ? "md:flex-row" : "md:flex-row-reverse",
-                  )}
+                  transition={{
+                    duration: 1,
+                    delay: i * 0.1,
+                    ease: [0.32, 0.72, 0, 1],
+                  }}
+                  className="relative grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-3 items-baseline"
                 >
-                  {/* Pastille — à gauche sur mobile, au centre sur desktop */}
-                  <div
-                    className="absolute left-4 md:left-1/2 md:-translate-x-1/2 -translate-x-1/2 top-2 md:top-1/2 md:-translate-y-1/2 w-3.5 h-3.5 rounded-full border-2 border-bridge-cream"
-                    style={{
-                      background: dotColor,
-                      boxShadow: "0 0 0 4px var(--color-bridge-cream)",
-                    }}
-                    aria-hidden="true"
-                  />
-
-                  {/* Contenu — décalé du rail à gauche sur mobile */}
-                  <div className="pl-12 md:pl-0 md:w-1/2 md:px-12">
+                  {/* Année */}
+                  <div className="md:col-span-3">
                     <div
                       className={clsx(
-                        "inline-block px-3 md:px-4 py-1 rounded-full border text-[0.65rem] md:text-xs font-sans tracking-[0.2em] uppercase mb-3",
-                        accentClass,
+                        "font-serif font-extralight leading-none tabular",
+                        isPivot
+                          ? `text-7xl md:text-8xl ${accentClasses.text}`
+                          : `text-5xl md:text-6xl text-bridge-ink/35`,
                       )}
                     >
                       {event.year}
                     </div>
-                    <h3 className="font-serif text-xl md:text-3xl text-bridge-ink leading-snug">
+                    {isPivot && (
+                      <div className="mt-3 text-[0.55rem] uppercase tracking-[0.3em] text-bridge-ink/45 font-sans">
+                        ✦ Moment pivot
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Contenu */}
+                  <div className="md:col-span-9 max-w-[60ch]">
+                    <h3
+                      className={clsx(
+                        "font-serif text-bridge-ink leading-tight",
+                        isPivot
+                          ? "text-2xl md:text-4xl font-light"
+                          : "text-xl md:text-2xl font-normal",
+                      )}
+                      style={{ textWrap: "balance" }}
+                    >
                       {event.title}
                     </h3>
-                    <p className="mt-2 md:mt-3 text-sm md:text-base text-bridge-ink/75 leading-relaxed">
+
+                    {/* Filet décoratif */}
+                    <motion.div
+                      initial={{ scaleX: 0 }}
+                      whileInView={{ scaleX: 1 }}
+                      viewport={{ once: true }}
+                      transition={{
+                        duration: 1,
+                        delay: 0.4,
+                        ease: [0.32, 0.72, 0, 1],
+                      }}
+                      className={clsx(
+                        "my-4 h-px w-12 origin-left",
+                        accentClasses.bg,
+                      )}
+                    />
+
+                    <p
+                      className={clsx(
+                        "text-bridge-ink/70 leading-[1.6] font-light",
+                        isPivot ? "text-base md:text-lg" : "text-sm md:text-base",
+                      )}
+                      style={{ textWrap: "pretty" }}
+                    >
                       {event.description}
                     </p>
                   </div>
-
-                  <div className="hidden md:block md:w-1/2" />
                 </motion.li>
               );
             })}
-          </ul>
+          </ol>
         </div>
       </div>
     </section>
