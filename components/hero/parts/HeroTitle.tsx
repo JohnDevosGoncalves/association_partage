@@ -17,7 +17,7 @@ export function HeroTitle() {
         duration={1.0}
         staggerChildren={0.18}
         delayChildren={0.4}
-        emphasis={{ Terre: "italic font-extralight text-atlas-clay" }}
+        emphasis={{ Terre: "italic font-extralight text-atlas-saffron" }}
       />
       <br />
       <WordReveal
@@ -25,7 +25,7 @@ export function HeroTitle() {
         duration={1.0}
         staggerChildren={0.18}
         delayChildren={0.95}
-        emphasis={{ Loire: "italic font-extralight text-loire-deep" }}
+        emphasis={{ Loire: "italic font-extralight text-loire-mist" }}
       />
     </h1>
   );

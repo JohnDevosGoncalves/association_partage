@@ -104,8 +104,9 @@ export function WordReveal({
         return (
           <span
             key={`${word}-${i}`}
-            className="inline-block overflow-hidden align-baseline pb-[0.05em]"
+            className="inline-block overflow-hidden align-baseline pb-[0.18em] pr-[0.08em]"
             aria-hidden="true"
+            style={{ overflowClipMargin: "0.15em" }}
           >
             <motion.span
               className={`inline-block ${emphasisClass ?? ""}`}

@@ -7,26 +7,33 @@
    ============================================================ */
 
 @theme {
-  /* — Loire / Orléans (côté froid) — */
-  --color-loire-deep: #1b3a5b;       /* bleu profond Loire au crépuscule */
-  --color-loire-stream: #2d5a82;     /* courant de la Loire */
-  --color-loire-mist: #7a9cb8;       /* brume du matin */
-  --color-loire-stone: #e8e2d4;      /* pierre calcaire des façades */
-  --color-loire-pale: #f1ecdf;       /* tuffeau pâle */
+  /* ============================================================
+     PALETTE 2026 — Monochrome warm + accent orange du logo
+     Inspiration : Aesop / Hermès / Loro Piana (luxe éditorial moderne)
+     Les noms loire/atlas sont conservés pour compatibilité, mais les
+     valeurs sont migrées vers une palette moderne mono+orange.
+     ============================================================ */
 
-  /* — Atlas / Maroc (côté chaud) — */
-  --color-atlas-saffron: #e8a33d;    /* safran */
-  --color-atlas-terracotta: #c8553d; /* terre cuite */
-  --color-atlas-ochre: #b5824a;      /* ocre minéral */
-  --color-atlas-clay: #8b3a2a;       /* argile profonde */
-  --color-atlas-cream: #f4e4c1;      /* sable doré */
+  /* — Inks (côté "loire" historique = teintes froides anthracite) — */
+  --color-loire-deep: #0f0f0f;       /* ink primaire (était bleu profond) */
+  --color-loire-stream: #2a2a2a;     /* ink secondaire (charbon) */
+  --color-loire-mist: #6b6b6b;       /* gris moyen pour annotations */
+  --color-loire-stone: #e8e0d5;      /* warm grey pour bordures */
+  --color-loire-pale: #f5f0e8;       /* off-white warm */
 
-  /* — Pont / neutres — */
-  --color-bridge-cream: #f8f4ed;
-  --color-bridge-ink: #1a1a2e;
+  /* — Orange du logo (côté "atlas" historique = teintes chaudes) — */
+  --color-atlas-saffron: #ef7b1a;    /* orange logo PRIMARY (vibrant) */
+  --color-atlas-terracotta: #c5560d; /* orange deep (hover/pressed) */
+  --color-atlas-ochre: #d4842f;      /* orange softer (variant) */
+  --color-atlas-clay: #8c3d08;       /* orange brûlé (deepest) */
+  --color-atlas-cream: #f4dbc4;      /* chair claire warm (background accent) */
 
-  /* — Mode Nuit / Astronomie — */
-  --color-night-deep: #050a1a;
+  /* — Bridge / fonds principaux — */
+  --color-bridge-cream: #fbf8f3;     /* cream principal (background) */
+  --color-bridge-ink: #0f0f0f;       /* ink principal (texte) */
+
+  /* — Mode Nuit / Astronomie (préservé pour la section astronomie) — */
+  --color-night-deep: #0a0a0a;
   --color-night-star: #ffe9a0;
 
   /* — Polices — */

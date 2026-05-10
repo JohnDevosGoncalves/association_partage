@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" role="img" aria-label="Association Partage">
+  <!-- Approximation du logo P avec silhouette enfant -->
+  <g fill="#ef7b1a">
+    <!-- Tige verticale du P -->
+    <rect x="62" y="40" width="22" height="120" />
+    <!-- Bowl du P -->
+    <path d="M62 40 H120 a35 35 0 0 1 35 35 v0 a35 35 0 0 1 -35 35 H62 z" />
+    <!-- Ligne basse stylisée du P -->
+    <path d="M52 158 H94 v6 H52 z" opacity="0.85" />
+  </g>
+  <!-- Silhouette enfant en blanc (négatif dans le bowl) -->
+  <g fill="#fff">
+    <path d="M82 60 c-4 -2 -8 0 -10 4 c-2 6 2 10 6 12 c-2 2 -3 5 -3 8 c0 4 2 7 5 9 c-3 1 -5 3 -5 6 c1 4 5 6 9 6 v-45 z" />
+    <circle cx="78" cy="73" r="2.5" fill="#ef7b1a" opacity="0.4" />
+  </g>
+</svg>

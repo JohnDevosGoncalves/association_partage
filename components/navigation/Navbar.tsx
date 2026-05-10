@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import clsx from "clsx";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 
 // Liens absolus avec ancre — fonctionnent depuis n'importe quelle page
 // (sur la home, scrollent à l'ancre ; depuis /histoire, retournent à home + scrollent).
@@ -57,19 +58,20 @@ export function Navbar() {
         className={clsx(
           "fixed top-0 inset-x-0 z-50 transition-all duration-500",
           scrolled
-            ? "bg-bridge-cream/85 backdrop-blur-md border-b border-loire-stone/60 py-3"
-            : "bg-transparent py-4 md:py-6",
+            ? "bg-bridge-cream/90 backdrop-blur-md border-b border-loire-stone/60 py-3"
+            : "bg-transparent border-b border-transparent py-4 md:py-5",
         )}
       >
         <nav className="max-w-7xl mx-auto px-5 md:px-6 flex items-center justify-between gap-3">
           <a
             href="/"
-            className={clsx(
-              "font-serif italic text-lg md:text-xl tracking-wide transition-colors whitespace-nowrap",
-              scrolled ? "text-bridge-ink" : "text-loire-pale",
-            )}
+            className="flex items-center gap-3 transition-opacity duration-500 hover:opacity-80"
+            aria-label="Association Partage — Retour à l'accueil"
           >
-            Association <span className="text-atlas-saffron">Partage</span>
+            <BrandLogo size={scrolled ? 36 : 42} variant="mark" />
+            <span className="hidden md:inline-block font-serif italic text-base md:text-lg tracking-wide text-bridge-ink whitespace-nowrap">
+              Association <span className="text-atlas-saffron">Partage</span>
+            </span>
           </a>
 
           {/* Liens desktop (md+) */}
@@ -80,9 +82,7 @@ export function Navbar() {
                   href={link.href}
                   className={clsx(
                     "text-xs uppercase tracking-[0.2em] font-sans transition-colors",
-                    scrolled
-                      ? "text-bridge-ink/80 hover:text-atlas-clay"
-                      : "text-loire-pale/85 hover:text-atlas-cream",
+                    "text-bridge-ink/75 hover:text-atlas-saffron",
                   )}
                 >
                   {link.label}
@@ -92,17 +92,12 @@ export function Navbar() {
           </ul>
 
           <div className="flex items-center gap-2 md:gap-3">
-            <ThemeToggle variant={scrolled ? "dark" : "light"} />
+            <ThemeToggle variant="dark" />
 
             {/* Bouton "Soutenir" — visible desktop seulement */}
             <a
               href="/mecenat"
-              className={clsx(
-                "hidden sm:inline-flex px-4 md:px-5 py-2 rounded-full text-xs uppercase tracking-[0.2em] font-sans font-medium transition-all whitespace-nowrap",
-                scrolled
-                  ? "bg-bridge-ink text-bridge-cream hover:bg-atlas-clay"
-                  : "bg-atlas-saffron text-bridge-ink hover:bg-atlas-cream",
-              )}
+              className="hidden sm:inline-flex px-4 md:px-5 py-2 rounded-full text-xs uppercase tracking-[0.2em] font-sans font-medium transition-all whitespace-nowrap bg-atlas-saffron hover:bg-atlas-terracotta text-bridge-cream shadow-sm hover:shadow"
             >
               Soutenir
             </a>
@@ -113,12 +108,7 @@ export function Navbar() {
               onClick={() => setOpen(true)}
               aria-label="Ouvrir le menu"
               aria-expanded={open}
-              className={clsx(
-                "md:hidden w-11 h-11 rounded-full flex items-center justify-center transition-colors border",
-                scrolled
-                  ? "border-bridge-ink/30 text-bridge-ink hover:border-atlas-clay"
-                  : "border-loire-pale/40 text-loire-pale hover:border-atlas-cream",
-              )}
+              className="md:hidden w-11 h-11 rounded-full flex items-center justify-center transition-colors border border-bridge-ink/25 text-bridge-ink hover:border-atlas-saffron hover:text-atlas-saffron"
             >
               <svg
                 viewBox="0 0 24 24"
