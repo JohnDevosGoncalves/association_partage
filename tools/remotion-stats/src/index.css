@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Identité Association Partage — clone des tokens du site
+   ============================================================ */
+
+@theme {
+  --color-loire-deep: #1b3a5b;
+  --color-loire-stream: #2d5a82;
+  --color-loire-mist: #7a9cb8;
+  --color-loire-pale: #f1ecdf;
+
+  --color-atlas-saffron: #e8a33d;
+  --color-atlas-terracotta: #c8553d;
+  --color-atlas-ochre: #b5824a;
+  --color-atlas-clay: #8b3a2a;
+  --color-atlas-cream: #f4e4c1;
+
+  --color-bridge-cream: #f8f4ed;
+  --color-bridge-ink: #1a1a2e;
+
+  --font-serif: "Cormorant Garamond", "Times New Roman", serif;
+  --font-sans: "Geist", "Helvetica Neue", sans-serif;
+}
+
+/* Polices Google Fonts en self-host minimal pour Remotion (rendering) */
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 300;
+  font-display: block;
+  src: url("https://fonts.gstatic.com/s/cormorantgaramond/v16/co3bmX5slCNuHLi8bLeY9MK7whWMhyjornFLsS6V7w.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 300;
+  font-display: block;
+  src: url("https://fonts.gstatic.com/s/cormorantgaramond/v16/co3WmX5slCNuHLi8bLeY9MK7whWMhyjQAllvuQWJ5hYIvg.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: block;
+  src: url("https://fonts.gstatic.com/s/geist/v3/gyByhwUxId8gMEwYGFU2g7iyRSE.woff2") format("woff2");
+}
+
+body {
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
