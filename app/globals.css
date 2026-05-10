@@ -1,26 +1,153 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   DESIGN TOKENS — "Entre Terre et Loire"
+   Loire (froid)  : bleus profonds, pierre calcaire d'Orléans
+   Atlas (chaud)  : safran, terracotta, ocre minéral
+   ============================================================ */
+
+@theme {
+  /* — Loire / Orléans (côté froid) — */
+  --color-loire-deep: #1b3a5b;       /* bleu profond Loire au crépuscule */
+  --color-loire-stream: #2d5a82;     /* courant de la Loire */
+  --color-loire-mist: #7a9cb8;       /* brume du matin */
+  --color-loire-stone: #e8e2d4;      /* pierre calcaire des façades */
+  --color-loire-pale: #f1ecdf;       /* tuffeau pâle */
+
+  /* — Atlas / Maroc (côté chaud) — */
+  --color-atlas-saffron: #e8a33d;    /* safran */
+  --color-atlas-terracotta: #c8553d; /* terre cuite */
+  --color-atlas-ochre: #b5824a;      /* ocre minéral */
+  --color-atlas-clay: #8b3a2a;       /* argile profonde */
+  --color-atlas-cream: #f4e4c1;      /* sable doré */
+
+  /* — Pont / neutres — */
+  --color-bridge-cream: #f8f4ed;
+  --color-bridge-ink: #1a1a2e;
+
+  /* — Mode Nuit / Astronomie — */
+  --color-night-deep: #050a1a;
+  --color-night-star: #ffe9a0;
+
+  /* — Polices — */
+  --font-serif: var(--font-cormorant), "Times New Roman", serif;
+  --font-sans: var(--font-inter), "Helvetica Neue", sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: var(--color-bridge-cream);
+    --foreground: var(--color-bridge-ink);
+    --section-tint: transparent;
+  }
+
+  /* Mode Nuit Astronomie — bascule via <html data-theme="night"> */
+  html[data-theme="night"] {
+    --background: var(--color-night-deep);
+    --foreground: var(--color-loire-pale);
+    --section-tint: rgba(5, 10, 26, 0.55);
+  }
+
+  html {
+    transition: background-color 0.8s ease;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition:
+      background-color 0.8s ease,
+      color 0.8s ease;
+  }
+
+  /* Voile global appliqué aux sections en mode nuit. Les sections gardent
+     leur identité chromatique mais s'estompent dans la nuit. */
+  html[data-theme="night"] section,
+  html[data-theme="night"] footer {
+    position: relative;
+  }
+  html[data-theme="night"] section::before,
+  html[data-theme="night"] footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--section-tint);
+    pointer-events: none;
+    z-index: 0;
+    transition: background 0.8s ease;
+  }
+  html[data-theme="night"] section > *,
+  html[data-theme="night"] footer > * {
+    position: relative;
+    z-index: 1;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ============================================================
+   EFFETS SPÉCIAUX
+   ============================================================ */
+
+/* Grain de sable subtil — couvre les sections Atlas/Maroc.
+   SVG inline pour éviter une requête réseau supplémentaire. */
+.sand-grain {
+  position: relative;
+  isolation: isolate;
+}
+.sand-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.36 0 0 0 0 0.18 0 0 0 0.7 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  z-index: 1;
+}
+.sand-grain > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Vignette douce pour ancrer les titres */
+.vignette-soft {
+  background:
+    radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.22) 100%);
+}
+
+/* Morphing Loire ↔ Atlas — gradient diagonal qui respire */
+@keyframes morph-bridge {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+.morph-bridge {
+  background: linear-gradient(
+    100deg,
+    var(--color-loire-deep) 0%,
+    var(--color-loire-stream) 30%,
+    var(--color-atlas-ochre) 55%,
+    var(--color-atlas-terracotta) 80%,
+    var(--color-atlas-saffron) 100%
+  );
+  background-size: 200% 200%;
+  animation: morph-bridge 16s ease-in-out infinite;
+}
+
+/* Scintillement d'étoiles (préparation Mode Nuit) */
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 1; }
+}
+.star-twinkle {
+  animation: star-twinkle 3s ease-in-out infinite;
+}
+
+/* Accessibilité : respecter prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .morph-bridge,
+  .star-twinkle {
+    animation: none;
+  }
 }

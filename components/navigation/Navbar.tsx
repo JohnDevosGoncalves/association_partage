@@ -1,0 +1,221 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import clsx from "clsx";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+
+// Liens absolus avec ancre — fonctionnent depuis n'importe quelle page
+// (sur la home, scrollent à l'ancre ; depuis /histoire, retournent à home + scrollent).
+const NAV_LINKS = [
+  { href: "/#histoire", label: "Histoire" },
+  { href: "/#pont", label: "Le Pont" },
+  { href: "/#bledi", label: "Maison Bledi" },
+  { href: "/#astronomie", label: "Astronomie" },
+  { href: "/#cooperative", label: "Coopérative" },
+  { href: "/#kiosque", label: "Kiosque" },
+  { href: "/#mecenat", label: "Mécénat" },
+];
+
+const DESKTOP_LINKS = NAV_LINKS.filter((l) =>
+  ["/#histoire", "/#bledi", "/#cooperative", "/#kiosque", "/#mecenat"].includes(
+    l.href,
+  ),
+);
+
+export function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 80);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Ferme le drawer si la fenêtre devient assez large pour le menu desktop
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= 768) setOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  // Empêche le scroll de la page quand le drawer est ouvert
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  return (
+    <>
+      <header
+        className={clsx(
+          "fixed top-0 inset-x-0 z-50 transition-all duration-500",
+          scrolled
+            ? "bg-bridge-cream/85 backdrop-blur-md border-b border-loire-stone/60 py-3"
+            : "bg-transparent py-4 md:py-6",
+        )}
+      >
+        <nav className="max-w-7xl mx-auto px-5 md:px-6 flex items-center justify-between gap-3">
+          <a
+            href="/"
+            className={clsx(
+              "font-serif italic text-lg md:text-xl tracking-wide transition-colors whitespace-nowrap",
+              scrolled ? "text-bridge-ink" : "text-loire-pale",
+            )}
+          >
+            Association <span className="text-atlas-saffron">Partage</span>
+          </a>
+
+          {/* Liens desktop (md+) */}
+          <ul className="hidden md:flex items-center gap-6 lg:gap-8">
+            {DESKTOP_LINKS.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className={clsx(
+                    "text-xs uppercase tracking-[0.2em] font-sans transition-colors",
+                    scrolled
+                      ? "text-bridge-ink/80 hover:text-atlas-clay"
+                      : "text-loire-pale/85 hover:text-atlas-cream",
+                  )}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex items-center gap-2 md:gap-3">
+            <ThemeToggle variant={scrolled ? "dark" : "light"} />
+
+            {/* Bouton "Soutenir" — visible desktop seulement */}
+            <a
+              href="/mecenat"
+              className={clsx(
+                "hidden sm:inline-flex px-4 md:px-5 py-2 rounded-full text-xs uppercase tracking-[0.2em] font-sans font-medium transition-all whitespace-nowrap",
+                scrolled
+                  ? "bg-bridge-ink text-bridge-cream hover:bg-atlas-clay"
+                  : "bg-atlas-saffron text-bridge-ink hover:bg-atlas-cream",
+              )}
+            >
+              Soutenir
+            </a>
+
+            {/* Hamburger — visible mobile seulement */}
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              aria-label="Ouvrir le menu"
+              aria-expanded={open}
+              className={clsx(
+                "md:hidden w-11 h-11 rounded-full flex items-center justify-center transition-colors border",
+                scrolled
+                  ? "border-bridge-ink/30 text-bridge-ink hover:border-atlas-clay"
+                  : "border-loire-pale/40 text-loire-pale hover:border-atlas-cream",
+              )}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                aria-hidden="true"
+              >
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              </svg>
+            </button>
+          </div>
+        </nav>
+      </header>
+
+      {/* Drawer mobile */}
+      <AnimatePresence>
+        {open && (
+          <>
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => setOpen(false)}
+              className="fixed inset-0 z-[60] bg-bridge-ink/70 backdrop-blur-sm md:hidden"
+              aria-hidden="true"
+            />
+            <motion.aside
+              key="drawer"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 28, stiffness: 240 }}
+              className="fixed top-0 right-0 bottom-0 z-[61] w-[82%] max-w-sm bg-bridge-cream shadow-2xl md:hidden flex flex-col"
+              role="dialog"
+              aria-label="Menu de navigation"
+            >
+              <div className="flex items-center justify-between px-6 py-5 border-b border-loire-stone/50">
+                <span className="font-serif italic text-lg text-bridge-ink">
+                  Menu
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  aria-label="Fermer le menu"
+                  className="w-10 h-10 rounded-full flex items-center justify-center border border-bridge-ink/20 hover:border-atlas-clay text-bridge-ink"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 6l12 12M18 6l-12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <ul className="flex-1 overflow-y-auto px-6 py-4">
+                {NAV_LINKS.map((link, i) => (
+                  <motion.li
+                    key={link.href}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 + i * 0.05, duration: 0.3 }}
+                  >
+                    <a
+                      href={link.href}
+                      onClick={() => setOpen(false)}
+                      className="block py-4 font-serif text-2xl text-bridge-ink hover:text-atlas-clay border-b border-loire-stone/40 transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  </motion.li>
+                ))}
+              </ul>
+
+              <div className="p-6 border-t border-loire-stone/50 bg-loire-pale/40">
+                <a
+                  href="/mecenat"
+                  onClick={() => setOpen(false)}
+                  className="block w-full text-center px-5 py-3 rounded-full text-xs uppercase tracking-[0.2em] font-sans font-medium bg-atlas-saffron text-bridge-ink hover:bg-atlas-cream transition-colors"
+                >
+                  Soutenir l'association
+                </a>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
