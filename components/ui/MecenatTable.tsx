@@ -1,123 +1,153 @@
 "use client";
 
-import { useState, type PointerEvent } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import Link from "next/link";
 import clsx from "clsx";
-import { MECENAT_TIERS, type MecenatTier } from "@/lib/data/mecenat";
+import { MECENAT_TIERS } from "@/lib/data/mecenat";
 
 /**
- * Tableau de mécénat interactif — 4 niveaux.
+ * Tableau de mécénat — 4 niveaux toujours visibles (Bronze, Argent, Or, Platinium).
  *
- * Desktop : survol pointer:fine met en avant un niveau.
- * Tactile : tap unique alterne ouvert/fermé. Pas de mouseenter parasite
- *           (on filtre via pointerType pour ne pas piéger les tap).
+ * Refonte (2026-05-10) inspirée pattern 21st.dev pricing comparison :
+ *  - 4 colonnes alignées, all-info-visible (plus de hover-to-reveal)
+ *  - Niveau Or = "Le plus engagé", scale ↑ + bordure renforcée
+ *  - Checkmarks accent par niveau, signature en bas, CTA dédié
+ *  - Typographie Cormorant pour les titres, Inter pour le corps
  */
 export function MecenatTable() {
-  const [active, setActive] = useState<MecenatTier["id"] | null>("or");
-
-  // N'ouvre au survol que pour les souris/trackpads — sur tactile, le tap gère.
-  const handlePointerEnter = (
-    e: PointerEvent<HTMLButtonElement>,
-    id: MecenatTier["id"],
-  ) => {
-    if (e.pointerType === "mouse") setActive(id);
-  };
-
-  const handleClick = (id: MecenatTier["id"]) => {
-    setActive((current) => (current === id ? null : id));
-  };
-
   return (
-    <div className="w-full max-w-6xl mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-2">
-        {MECENAT_TIERS.map((tier) => {
-          const isActive = tier.id === active;
+    <div className="relative">
+      {/* Padding-top pour laisser de la place au badge "Le plus engagé" */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-5 items-stretch pt-5 md:pt-7">
+        {MECENAT_TIERS.map((tier, i) => {
+          const isFlagship = tier.id === "or";
           return (
-            <button
+            <motion.div
               key={tier.id}
-              type="button"
-              onPointerEnter={(e) => handlePointerEnter(e, tier.id)}
-              onClick={() => handleClick(tier.id)}
-              aria-pressed={isActive}
-              aria-expanded={isActive}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.7, delay: i * 0.08 }}
               className={clsx(
-                "relative text-left rounded-2xl p-5 md:p-8 transition-all duration-500 border-2 overflow-hidden",
-                isActive
-                  ? "md:scale-[1.04] shadow-xl"
-                  : "opacity-80 hover:opacity-100",
+                "relative h-full",
+                isFlagship && "lg:scale-[1.05] lg:z-10",
               )}
-              style={{
-                borderColor: isActive ? tier.accent : "transparent",
-                background: isActive
-                  ? `linear-gradient(160deg, ${tier.accent}18 0%, var(--color-bridge-cream) 100%)`
-                  : "var(--color-bridge-cream)",
-              }}
             >
-              <div
-                className="absolute top-0 left-0 right-0 h-1"
-                style={{ background: tier.accent }}
-              />
-
-              <div className="flex items-baseline justify-between gap-3">
-                <p
-                  className="text-[0.65rem] md:text-xs uppercase tracking-[0.3em] font-sans font-medium"
-                  style={{ color: tier.accent }}
-                >
-                  Niveau
-                </p>
-                {/* Indicateur "tappable" — visible mobile uniquement quand fermé */}
-                <span
-                  className={clsx(
-                    "md:hidden text-xs font-sans transition-transform duration-300",
-                    isActive ? "rotate-45" : "rotate-0",
-                  )}
-                  style={{ color: tier.accent }}
-                  aria-hidden="true"
-                >
-                  +
-                </span>
-              </div>
-
-              <h3 className="font-serif text-2xl md:text-4xl mt-2 text-bridge-ink leading-none">
-                {tier.label}
-              </h3>
-              <p className="mt-2 md:mt-3 text-xs md:text-sm text-bridge-ink/70 font-sans">
-                {tier.range}
-              </p>
-
-              <AnimatePresence initial={false}>
-                {isActive && (
-                  <motion.div
-                    key="details"
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.4 }}
+              {/* Badge "Le plus engagé" — uniquement sur le tier Or */}
+              {isFlagship && (
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20">
+                  <span
+                    className="inline-block text-[0.6rem] md:text-xs font-sans font-semibold px-4 py-1.5 rounded-full uppercase tracking-[0.25em] text-bridge-cream shadow-lg whitespace-nowrap"
+                    style={{ background: tier.accent }}
                   >
-                    <ul className="mt-5 md:mt-6 space-y-2.5 md:space-y-3 text-sm text-bridge-ink/85">
-                      {tier.impacts.map((impact, i) => (
-                        <li key={i} className="flex gap-3 leading-relaxed">
-                          <span
-                            className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full"
-                            style={{ background: tier.accent }}
-                          />
-                          <span>{impact}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <p
-                      className="mt-5 pt-4 border-t text-xs italic font-sans"
-                      style={{
-                        borderColor: `${tier.accent}40`,
-                        color: tier.accent,
-                      }}
-                    >
-                      ✦ {tier.signature}
-                    </p>
-                  </motion.div>
+                    ✦ Le plus engagé
+                  </span>
+                </div>
+              )}
+
+              <article
+                className={clsx(
+                  "relative h-full flex flex-col rounded-2xl overflow-hidden transition-all duration-500 bg-bridge-cream",
+                  isFlagship
+                    ? "shadow-2xl"
+                    : "shadow-md hover:shadow-xl border border-loire-stone/50",
                 )}
-              </AnimatePresence>
-            </button>
+                style={
+                  isFlagship
+                    ? {
+                        boxShadow: `0 25px 50px -12px ${tier.accent}55, 0 0 0 2px ${tier.accent}`,
+                      }
+                    : undefined
+                }
+              >
+                {/* Header coloré */}
+                <header
+                  className="px-6 md:px-7 py-7 md:py-8"
+                  style={{
+                    background: `linear-gradient(160deg, ${tier.accent}22 0%, ${tier.accent}06 100%)`,
+                    borderBottom: `2px solid ${tier.accent}`,
+                  }}
+                >
+                  <p
+                    className="text-[0.6rem] md:text-xs uppercase tracking-[0.3em] font-sans font-medium"
+                    style={{ color: tier.accent }}
+                  >
+                    Niveau
+                  </p>
+                  <h3 className="font-serif text-3xl md:text-4xl mt-1 text-bridge-ink leading-none">
+                    {tier.label}
+                  </h3>
+                  <p className="mt-3 text-sm text-bridge-ink/70 font-sans">
+                    {tier.range}
+                  </p>
+                </header>
+
+                {/* Liste des impacts avec checkmarks */}
+                <ul
+                  className="flex-grow px-6 md:px-7 py-6 space-y-3.5"
+                  aria-label={`Impacts du niveau ${tier.label}`}
+                >
+                  {tier.impacts.map((impact, j) => (
+                    <li key={j} className="flex items-start gap-3">
+                      <span
+                        className="flex-shrink-0 mt-0.5 w-5 h-5 rounded-full flex items-center justify-center"
+                        style={{ background: `${tier.accent}22` }}
+                        aria-hidden="true"
+                      >
+                        <svg
+                          className="w-3 h-3"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke={tier.accent}
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </span>
+                      <span className="text-sm text-bridge-ink/85 leading-relaxed">
+                        {impact}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Signature */}
+                <div className="px-6 md:px-7 pt-2">
+                  <div
+                    className="border-t pt-3 pb-1"
+                    style={{ borderColor: `${tier.accent}30` }}
+                  >
+                    <p
+                      className="text-[0.7rem] md:text-xs font-sans italic text-center leading-tight"
+                      style={{ color: tier.accent }}
+                    >
+                      {tier.signature}
+                    </p>
+                  </div>
+                </div>
+
+                {/* CTA — un par niveau */}
+                <div className="px-6 md:px-7 pb-7 pt-4">
+                  <Link
+                    href="/mecenat#contact"
+                    className={clsx(
+                      "block w-full py-3 px-5 rounded-full text-center text-xs md:text-sm font-sans font-semibold tracking-wide transition-all duration-300",
+                      isFlagship
+                        ? "text-bridge-cream shadow-md hover:shadow-lg"
+                        : "border border-loire-stone hover:border-bridge-ink text-bridge-ink hover:bg-loire-pale/40",
+                    )}
+                    style={
+                      isFlagship ? { background: tier.accent } : undefined
+                    }
+                    aria-label={`Choisir le niveau de mécénat ${tier.label}`}
+                  >
+                    {isFlagship ? "Choisir Or" : `Choisir ${tier.label}`}
+                  </Link>
+                </div>
+              </article>
+            </motion.div>
           );
         })}
       </div>
