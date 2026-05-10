@@ -12,15 +12,20 @@ type Star = {
 };
 
 /**
- * Champ d'étoiles plein écran, fixe par-dessus toute la page.
- * Invisible en mode jour, scintille en mode nuit.
- * Canvas pour la perf — 200 étoiles tournent à 60fps sans souci.
+ * Champ d'étoiles plein écran — uniquement actif en mode nuit.
+ *
+ * Optimisations perf :
+ *  - Le canvas n'est PAS monté en mode jour (early return) — économise la
+ *    boucle requestAnimationFrame qui sinon tourne à 60fps en permanence.
+ *  - Quand le mode nuit s'active, le canvas se monte avec un fade-in CSS.
  */
 export function StarField() {
   const ref = useRef<HTMLCanvasElement>(null);
   const { theme } = useTheme();
+  const isNight = theme === "night";
 
   useEffect(() => {
+    if (!isNight) return; // pas de boucle RAF en mode jour
     const canvas = ref.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -37,7 +42,6 @@ export function StarField() {
       canvas.style.height = `${window.innerHeight}px`;
       ctx.scale(dpr, dpr);
 
-      // Régénère le champ d'étoiles à chaque resize
       const count = Math.floor(
         (window.innerWidth * window.innerHeight) / 9000,
       );
@@ -59,7 +63,6 @@ export function StarField() {
         ctx.fillStyle = `rgba(255, 233, 160, ${0.3 + tw * 0.7})`;
         ctx.fill();
 
-        // Halo discret pour les plus grosses
         if (star.r > 1) {
           ctx.beginPath();
           ctx.arc(star.x, star.y, star.r * 3, 0, Math.PI * 2);
@@ -78,16 +81,16 @@ export function StarField() {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
     };
-  }, []);
+  }, [isNight]);
+
+  // Pas de canvas du tout en mode jour — pas de coût DOM/GPU
+  if (!isNight) return null;
 
   return (
     <canvas
       ref={ref}
       aria-hidden="true"
-      className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-1000"
-      style={{
-        opacity: theme === "night" ? 1 : 0,
-      }}
+      className="fixed inset-0 pointer-events-none z-0 motion-safe:animate-[fadein_1s_ease-out]"
     />
   );
 }

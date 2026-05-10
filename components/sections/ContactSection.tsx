@@ -1,9 +1,28 @@
-"use client";
+import dynamic from "next/dynamic";
+import { Reveal } from "@/components/interactive/Reveal";
 
-import { motion } from "framer-motion";
-import { fadeInUp } from "@/lib/animations";
-import { ContactForm } from "@/components/ui/ContactForm";
+// Lazy-load — le formulaire (state form + AnimatePresence + react-hook
+// patterns) n'est pas chargé tant que le user n'arrive pas en bas de page.
+const ContactForm = dynamic(
+  () => import("@/components/ui/ContactForm").then((mod) => mod.ContactForm),
+  {
+    loading: () => (
+      <div className="space-y-4" aria-hidden="true">
+        <div className="h-12 bg-loire-pale/40 rounded-lg animate-pulse" />
+        <div className="h-12 bg-loire-pale/40 rounded-lg animate-pulse" />
+        <div className="h-32 bg-loire-pale/40 rounded-lg animate-pulse" />
+      </div>
+    ),
+  },
+);
 
+/**
+ * Section "Écrivez-nous" — Server Component.
+ *
+ * Le wrapper, le filigrane SVG, l'eyebrow + titre + intro et les deux cartes
+ * de coordonnées sont du JSX statique. Seul <ContactForm> est un leaf client.
+ * Les animations d'entrée passent par <Reveal>.
+ */
 export function ContactSection() {
   return (
     <section
@@ -28,13 +47,7 @@ export function ContactSection() {
       </svg>
 
       <div className="relative max-w-4xl mx-auto">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          className="text-center mb-10 md:mb-14"
-        >
+        <Reveal className="text-center mb-10 md:mb-14">
           <p className="text-[0.65rem] md:text-xs uppercase tracking-[0.3em] md:tracking-[0.4em] text-loire-deep font-sans font-medium">
             Construisons ensemble
           </p>
@@ -45,23 +58,23 @@ export function ContactSection() {
             Mécénat, bénévolat, visite de la Maison Bledi, demande presse —
             chaque message est lu personnellement par notre bureau orléanais.
           </p>
-        </motion.div>
+        </Reveal>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.7, delay: 0.2 }}
+        <Reveal
+          delay={0.2}
+          y={20}
+          duration={0.7}
+          noBlur
           className="bg-bridge-cream/95 backdrop-blur-sm rounded-2xl border border-loire-stone/60 p-6 md:p-10 shadow-lg"
         >
           <ContactForm />
-        </motion.div>
+        </Reveal>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.4 }}
+        <Reveal
+          delay={0.4}
+          y={0}
+          duration={0.7}
+          noBlur
           className="mt-10 md:mt-12 grid grid-cols-1 md:grid-cols-2 gap-5 text-sm"
         >
           <div className="rounded-xl border border-loire-stone/60 bg-bridge-cream/70 p-5">
@@ -93,7 +106,7 @@ export function ContactSection() {
               maroc@association-partage.fr
             </a>
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

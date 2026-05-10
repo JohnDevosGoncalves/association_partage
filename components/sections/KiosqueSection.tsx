@@ -1,20 +1,23 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Image from "next/image";
-import { fadeInUp } from "@/lib/animations";
 import { KIOSQUE_PARTNERS } from "@/lib/data/products";
 import { EyebrowBadge } from "@/components/ui/EyebrowBadge";
+import { Reveal } from "@/components/interactive/Reveal";
 
 /**
- * Kiosque Solidaire — Editorial éditorial vertical avec partenaires en
- * "Z-axis cascade" (cards qui se chevauchent légèrement avec décalage).
+ * Kiosque Solidaire — Server Component (no "use client").
+ *
+ * Editorial vertical avec partenaires en "Z-axis cascade" (cards qui se
+ * chevauchent légèrement avec décalage).
+ *
+ * Architecture client/serveur :
+ *  - Wrapper, filigrane soleil, en-tête split, markup des cartes : serveur.
+ *  - <Reveal> (fade-up + blur) pour les 2 colonnes header et chaque carte
+ *    partenaire (delay incrémental pour préserver la cascade).
  *
  * Patterns :
  *  - Vibe Atlas (saffron/terracotta) sur background éditorial
  *  - Anti-3-card-grid : layout asymétrique avec offset décalés
  *  - Numéros éditoriaux pour les partenaires
- *  - Custom cubic-bezier
  */
 
 const PARTNER_IMAGES = [
@@ -46,13 +49,7 @@ export function KiosqueSection() {
       <div className="relative max-w-[1400px] mx-auto">
         {/* Editorial Split Header — typo gauche, contexte droite */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 mb-16 md:mb-24">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeInUp}
-            className="lg:col-span-7"
-          >
+          <Reveal className="lg:col-span-7">
             <EyebrowBadge variant="night" className="mb-5">
               Agadir · Gastronomie partagée
             </EyebrowBadge>
@@ -67,15 +64,9 @@ export function KiosqueSection() {
               <br />
               Solidaire
             </h2>
-          </motion.div>
+          </Reveal>
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeInUp}
-            className="lg:col-span-5 lg:pt-8"
-          >
+          <Reveal className="lg:col-span-5 lg:pt-8">
             <p className="text-base md:text-lg text-loire-pale/85 leading-[1.6] font-light max-w-[55ch]">
               Une vitrine où les recettes du Val de Loire rencontrent les
               produits du Souss-Massa. Trois artisans orléanais signent les
@@ -89,7 +80,7 @@ export function KiosqueSection() {
               <span className="w-8 h-px bg-atlas-cream/40" aria-hidden="true" />
               <span>Vendredis · Samedis</span>
             </div>
-          </motion.div>
+          </Reveal>
         </div>
 
         {/* Partenaires — Z-axis cascade avec offset */}
@@ -99,16 +90,12 @@ export function KiosqueSection() {
             const offsetClass =
               i === 0 ? "" : i === 1 ? "md:mt-12 lg:mt-20" : "md:mt-4 lg:mt-8";
             return (
-              <motion.article
+              <Reveal
                 key={partner.name}
-                initial={{ opacity: 0, y: 60, filter: "blur(8px)" }}
-                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{
-                  duration: 1,
-                  delay: 0.15 + i * 0.12,
-                  ease: [0.32, 0.72, 0, 1],
-                }}
+                as="article"
+                delay={0.15 + i * 0.12}
+                y={60}
+                duration={1}
                 className={`md:col-span-4 ${offsetClass}`}
               >
                 <div className="bezel-shell bezel-atlas">
@@ -160,7 +147,7 @@ export function KiosqueSection() {
                     </div>
                   </div>
                 </div>
-              </motion.article>
+              </Reveal>
             );
           })}
         </div>

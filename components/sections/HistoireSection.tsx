@@ -1,21 +1,25 @@
-"use client";
-
-import { motion } from "framer-motion";
+import Image from "next/image";
 import { TIMELINE } from "@/lib/data/timeline";
-import { fadeInUp } from "@/lib/animations";
 import { EyebrowBadge } from "@/components/ui/EyebrowBadge";
-import clsx from "clsx";
+import { Reveal } from "@/components/interactive/Reveal";
+import { HistoireTimelineEvent } from "./parts/Histoire/HistoireTimelineEvent";
 
 /**
- * Histoire — timeline éditoriale, left-aligned (anti-center bias).
+ * Histoire — Server Component (no "use client").
  *
  * Refonte (taste-skill + soft-skill) :
  *  - En-tête asymétrique split (eyebrow + H2 gauche, intro droite)
  *  - Timeline avec rail vertical à gauche, événements en cards textuelles
  *  - Année en typographie display extralight
- *  - Custom cubic-bezier pour reveal
  *  - Tabular-nums sur les années
  *  - Hiérarchie : événement pivot 2015 et 2021 en TAILLE LARGER
+ *
+ * Architecture client/serveur :
+ *  - Markup, fonds, rail vertical : rendus côté serveur (HTML pur).
+ *  - <Reveal> hydrate juste un wrapper motion pour la révélation au scroll
+ *    (eyebrow/titre + paragraphe d'intro).
+ *  - Chaque événement timeline est un sub-client <HistoireTimelineEvent />
+ *    pour conserver l'animation index-based + le filet décoratif scaleX.
  */
 export function HistoireSection() {
   // Indice des événements pivots (qui méritent un poids visuel supplémentaire)
@@ -29,13 +33,7 @@ export function HistoireSection() {
       <div className="relative max-w-[1400px] mx-auto">
         {/* Header en split asymétrique */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 mb-16 md:mb-24">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeInUp}
-            className="lg:col-span-7"
-          >
+          <Reveal y={24} duration={0.9} noBlur className="lg:col-span-7">
             <EyebrowBadge variant="loire" className="mb-5">
               Le voyage commence en 2015
             </EyebrowBadge>
@@ -46,20 +44,51 @@ export function HistoireSection() {
               </em>{" "}
               de partage
             </h2>
-          </motion.div>
+          </Reveal>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.32, 0.72, 0, 1] }}
+          <Reveal
+            as="p"
+            y={20}
+            duration={1}
+            delay={0.2}
             className="lg:col-span-5 lg:pt-10 text-base md:text-lg text-bridge-ink/70 max-w-[55ch] leading-[1.6] font-light"
           >
             Tout commence à Orléans, au bord de la Loire, par un geste simple :
             offrir à des enfants l'accès à l'école. Dix ans plus tard, ce geste
             est devenu un pont entre la France, le Sri Lanka et le Maroc.
-          </motion.p>
+          </Reveal>
         </div>
+
+        {/* Bandeau photo emblématique — humanise le récit */}
+        <Reveal
+          y={40}
+          duration={1}
+          className="relative w-full aspect-[16/7] md:aspect-[21/8] rounded-[1.5rem] overflow-hidden mb-16 md:mb-24 shadow-[0_30px_60px_-20px_rgba(27,58,91,0.3)]"
+        >
+          <Image
+            src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=2400&q=75&auto=format&fit=crop"
+            alt="Enfants en classe — la mission de scolarisation, geste fondateur de l'association depuis 2015"
+            fill
+            sizes="(max-width: 1400px) 100vw, 1400px"
+            quality={75}
+            className="object-cover"
+          />
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(27,58,91,0) 40%, rgba(27,58,91,0.55) 100%)",
+            }}
+          />
+          <div className="absolute bottom-5 left-5 md:bottom-8 md:left-10 max-w-md text-loire-pale">
+            <p className="text-[0.6rem] md:text-xs uppercase tracking-[0.3em] font-sans font-medium opacity-80">
+              Sri Lanka · Mission scolarisation
+            </p>
+            <p className="font-serif italic text-lg md:text-2xl mt-2 leading-tight">
+              "Tout commence par un cartable."
+            </p>
+          </div>
+        </Reveal>
 
         {/* Timeline */}
         <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-x-16 gap-y-16 md:gap-y-24">
@@ -81,89 +110,14 @@ export function HistoireSection() {
 
           {/* Liste événements */}
           <ol className="lg:col-span-9 space-y-16 md:space-y-24">
-            {TIMELINE.map((event, i) => {
-              const isPivot = PIVOT_INDICES.has(i);
-              const accentClasses =
-                event.side === "loire"
-                  ? { text: "text-loire-deep", bg: "bg-loire-deep/60" }
-                  : event.side === "atlas"
-                    ? { text: "text-atlas-clay", bg: "bg-atlas-clay/60" }
-                    : { text: "text-atlas-ochre", bg: "bg-atlas-ochre/60" };
-              return (
-                <motion.li
-                  key={event.year}
-                  initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-                  whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{
-                    duration: 1,
-                    delay: i * 0.1,
-                    ease: [0.32, 0.72, 0, 1],
-                  }}
-                  className="relative grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-3 items-baseline"
-                >
-                  {/* Année */}
-                  <div className="md:col-span-3">
-                    <div
-                      className={clsx(
-                        "font-serif font-extralight leading-none tabular",
-                        isPivot
-                          ? `text-7xl md:text-8xl ${accentClasses.text}`
-                          : `text-5xl md:text-6xl text-bridge-ink/35`,
-                      )}
-                    >
-                      {event.year}
-                    </div>
-                    {isPivot && (
-                      <div className="mt-3 text-[0.55rem] uppercase tracking-[0.3em] text-bridge-ink/45 font-sans">
-                        ✦ Moment pivot
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Contenu */}
-                  <div className="md:col-span-9 max-w-[60ch]">
-                    <h3
-                      className={clsx(
-                        "font-serif text-bridge-ink leading-tight",
-                        isPivot
-                          ? "text-2xl md:text-4xl font-light"
-                          : "text-xl md:text-2xl font-normal",
-                      )}
-                      style={{ textWrap: "balance" }}
-                    >
-                      {event.title}
-                    </h3>
-
-                    {/* Filet décoratif */}
-                    <motion.div
-                      initial={{ scaleX: 0 }}
-                      whileInView={{ scaleX: 1 }}
-                      viewport={{ once: true }}
-                      transition={{
-                        duration: 1,
-                        delay: 0.4,
-                        ease: [0.32, 0.72, 0, 1],
-                      }}
-                      className={clsx(
-                        "my-4 h-px w-12 origin-left",
-                        accentClasses.bg,
-                      )}
-                    />
-
-                    <p
-                      className={clsx(
-                        "text-bridge-ink/70 leading-[1.6] font-light",
-                        isPivot ? "text-base md:text-lg" : "text-sm md:text-base",
-                      )}
-                      style={{ textWrap: "pretty" }}
-                    >
-                      {event.description}
-                    </p>
-                  </div>
-                </motion.li>
-              );
-            })}
+            {TIMELINE.map((event, i) => (
+              <HistoireTimelineEvent
+                key={event.year}
+                event={event}
+                index={i}
+                isPivot={PIVOT_INDICES.has(i)}
+              />
+            ))}
           </ol>
         </div>
       </div>

@@ -1,10 +1,41 @@
-"use client";
+import dynamic from "next/dynamic";
+import { Reveal } from "@/components/interactive/Reveal";
 
-import { motion } from "framer-motion";
-import { fadeInUp } from "@/lib/animations";
-import { MecenatTable } from "@/components/ui/MecenatTable";
-import { ColombelCard } from "@/components/parrains/ColombelCard";
+// Lazy-load — la table 4 niveaux (~156 lignes interactives) et la carte
+// parrainage (~51 lignes motion) ne pèsent pas dans le first-paint.
+const MecenatTable = dynamic(
+  () =>
+    import("@/components/ui/MecenatTable").then((mod) => mod.MecenatTable),
+  {
+    loading: () => (
+      <div
+        className="grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-2 pt-5 md:pt-7"
+        aria-hidden="true"
+      >
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div
+            key={i}
+            className="h-[420px] rounded-2xl bg-loire-stone/40 animate-pulse"
+          />
+        ))}
+      </div>
+    ),
+  },
+);
+const ColombelCard = dynamic(
+  () =>
+    import("@/components/parrains/ColombelCard").then(
+      (mod) => mod.ColombelCard,
+    ),
+);
 
+/**
+ * Section "Devenir mécène" — Server Component.
+ *
+ * Le wrapper de section, l'eyebrow, le titre et le CTA terminal sont du JSX
+ * statique. Seuls <MecenatTable> et <ColombelCard> (déjà clients) sont des
+ * leaves hydratés. Les animations d'entrée passent par <Reveal>.
+ */
 export function MecenatSection() {
   return (
     <section
@@ -12,13 +43,7 @@ export function MecenatSection() {
       className="relative py-16 md:py-28 px-5 md:px-6 overflow-hidden bg-bridge-cream"
     >
       <div className="relative max-w-6xl mx-auto">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          className="text-center mb-12 md:mb-16"
-        >
+        <Reveal className="text-center mb-12 md:mb-16">
           <p className="text-[0.65rem] md:text-xs uppercase tracking-[0.3em] md:tracking-[0.4em] text-atlas-clay font-sans font-medium">
             Engagez-vous à nos côtés
           </p>
@@ -29,7 +54,7 @@ export function MecenatSection() {
             Quatre niveaux d'engagement, quatre impacts concrets. Survolez un
             niveau pour découvrir ce que votre soutien rend possible.
           </p>
-        </motion.div>
+        </Reveal>
 
         <MecenatTable />
 
@@ -37,13 +62,7 @@ export function MecenatSection() {
           <ColombelCard />
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="mt-14 md:mt-20 text-center"
-        >
+        <Reveal y={20} duration={0.7} noBlur className="mt-14 md:mt-20 text-center">
           <a
             href="#contact"
             className="inline-flex items-center justify-center px-10 py-4 bg-bridge-ink hover:bg-atlas-clay text-bridge-cream font-sans font-medium tracking-wide rounded-full transition-all duration-500 shadow-lg hover:shadow-xl"
@@ -54,7 +73,7 @@ export function MecenatSection() {
           <p className="mt-4 text-sm text-bridge-ink/60 italic">
             Toutes nos conventions de mécénat ouvrent droit à 60 % de réduction d'impôt.
           </p>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

@@ -1,15 +1,27 @@
-"use client";
+import dynamic from "next/dynamic";
+import { Reveal } from "@/components/interactive/Reveal";
 
-import { motion } from "framer-motion";
-import { fadeInUp } from "@/lib/animations";
-import { BridgeMap } from "@/components/ui/BridgeMap";
+// Lazy-load — la carte SVG (~552 lignes + particules + framer-motion) ne
+// pèse plus dans le first-paint. Skeleton au chargement.
+const BridgeMap = dynamic(
+  () => import("@/components/ui/BridgeMap").then((mod) => mod.BridgeMap),
+  {
+    loading: () => (
+      <div
+        className="w-full aspect-[12/7] rounded-2xl bg-loire-pale/5 ring-1 ring-loire-pale/10"
+        aria-hidden="true"
+      />
+    ),
+  },
+);
 
 /**
  * Section "Le pont solidaire" — bascule en mode "carte céleste cosmique"
  * pour offrir un moment de rupture visuelle dans la page (cinéma).
  *
- * Refonte 2026-05-10 : fond profond + glow accents qui complètent la
- * nouvelle BridgeMap blueprint.
+ * Server Component : seul <BridgeMap> est un leaf client (SVG animé +
+ * particules + state au survol). L'eyebrow + titre + intro sont du JSX
+ * statique wrappé dans <Reveal> pour l'animation d'entrée.
  */
 export function BridgeMapSection() {
   return (
@@ -40,13 +52,7 @@ export function BridgeMapSection() {
       />
 
       <div className="relative max-w-6xl mx-auto">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          className="text-center mb-10 md:mb-16 text-loire-pale"
-        >
+        <Reveal className="text-center mb-10 md:mb-16 text-loire-pale">
           <p className="text-[0.65rem] md:text-xs uppercase tracking-[0.4em] text-atlas-cream font-sans font-medium">
             2 700 km · Un pont solidaire
           </p>
@@ -60,7 +66,7 @@ export function BridgeMapSection() {
             dans les deux sens. Survolez chaque ancrage pour découvrir ce qui
             s'y passe.
           </p>
-        </motion.div>
+        </Reveal>
 
         <BridgeMap />
       </div>

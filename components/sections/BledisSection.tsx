@@ -1,37 +1,29 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { fadeInUp } from "@/lib/animations";
 import { ImpactCounter } from "@/components/ui/ImpactCounter";
 import { IMPACTS } from "@/lib/data/timeline";
 import { EyebrowBadge } from "@/components/ui/EyebrowBadge";
+import { Reveal } from "@/components/interactive/Reveal";
+import {
+  BledisFeatureTile,
+  type BledisFeature,
+} from "./parts/Bledis/BledisFeatureTile";
 
 /**
- * Maison Bledi — Asymmetrical Bento (per soft-skill §3 Layout Archetype #1).
+ * Maison Bledi — Server Component (no "use client").
  *
- * Layout :
- *  - 1 grande tile "PMR" qui domine (col-span-6 row-span-2)
- *  - 4 petites tiles satellites (col-span-3 chacune, en deux groupes)
+ * Asymmetrical Bento (per soft-skill §3 Layout Archetype #1) :
+ *  - 1 grande tile "PMR" qui domine (col-span-7 row-span-2)
+ *  - 4 petites tiles satellites (col-span-3/5)
  *  - Bandeau ImpactCounter en bas pleine largeur
  *
- * Patterns :
- *  - Double-bezel architecture sur chaque tile
- *  - Eyebrow pill badge
- *  - Macro-whitespace (py-24+)
- *  - Spring physics (whileInView + custom cubic-bezier)
- *  - Tabular nums sur les chiffres
+ * Architecture client/serveur :
+ *  - Le markup de la section, le fond radial, les data sont rendus serveur.
+ *  - Chaque tile bento est un sub-client <BledisFeatureTile /> (animation
+ *    fade-up + filet scaleX hero).
+ *  - L'en-tête éditorial est wrappé dans <Reveal>.
+ *  - Les ImpactCounter restent clients (intra-component RAF + useInView).
  */
 
-type Feature = {
-  title: string;
-  description: string;
-  metric?: string;
-  metricLabel?: string;
-  size: "hero" | "wide" | "compact";
-  variant: "loire" | "atlas";
-};
-
-const FEATURES: Feature[] = [
+const FEATURES: BledisFeature[] = [
   {
     title: "Accessibilité totale PMR",
     description:
@@ -51,8 +43,7 @@ const FEATURES: Feature[] = [
   },
   {
     title: "Recyclage des eaux",
-    description:
-      "Phytoépuration des eaux grises pour l'arrosage du jardin.",
+    description: "Phytoépuration des eaux grises pour l'arrosage du jardin.",
     metric: "0 L",
     metricLabel: "perdus",
     size: "compact",
@@ -83,12 +74,6 @@ const FEATURES: Feature[] = [
   },
 ];
 
-const sizeToColSpan = {
-  hero: "md:col-span-12 lg:col-span-7 lg:row-span-2",
-  wide: "md:col-span-6 lg:col-span-5",
-  compact: "md:col-span-6 lg:col-span-3",
-} as const;
-
 export function BledisSection() {
   return (
     <section
@@ -101,13 +86,7 @@ export function BledisSection() {
     >
       <div className="relative max-w-[1400px] mx-auto">
         {/* En-tête éditorial — left-aligned (anti-center bias) */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          className="mb-12 md:mb-16 max-w-3xl"
-        >
+        <Reveal y={24} duration={0.9} noBlur className="mb-12 md:mb-16 max-w-3xl">
           <EyebrowBadge variant="atlas" className="mb-5">
             Au cœur du Haut-Atlas
           </EyebrowBadge>
@@ -120,103 +99,25 @@ export function BledisSection() {
             la première pierre pour être totalement accessible et autosuffisant
             en énergie.
           </p>
-        </motion.div>
+        </Reveal>
 
         {/* Bento grid asymétrique */}
         <div className="grid grid-cols-1 md:grid-cols-12 lg:grid-rows-[auto_auto] gap-4 md:gap-5">
           {FEATURES.map((feature, i) => (
-            <motion.article
+            <BledisFeatureTile
               key={feature.title}
-              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{
-                duration: 0.9,
-                delay: i * 0.08,
-                ease: [0.32, 0.72, 0, 1],
-              }}
-              className={`bezel-shell bezel-${feature.variant} ${sizeToColSpan[feature.size]}`}
-            >
-              <div className="bezel-core h-full p-6 md:p-8 lg:p-10 flex flex-col">
-                {feature.metric && (
-                  <div
-                    className="mb-5 md:mb-6 flex items-baseline gap-2"
-                    style={{ fontVariantNumeric: "tabular-nums" }}
-                  >
-                    <span
-                      className={`font-serif font-light leading-none ${
-                        feature.size === "hero"
-                          ? "text-5xl md:text-7xl"
-                          : "text-3xl md:text-4xl"
-                      } ${
-                        feature.variant === "atlas"
-                          ? "text-atlas-clay"
-                          : "text-loire-deep"
-                      }`}
-                    >
-                      {feature.metric}
-                    </span>
-                    {feature.metricLabel && (
-                      <span className="text-[0.65rem] md:text-xs uppercase tracking-[0.2em] text-bridge-ink/50 font-sans">
-                        {feature.metricLabel}
-                      </span>
-                    )}
-                  </div>
-                )}
-
-                <h3
-                  className={`font-serif text-bridge-ink leading-tight ${
-                    feature.size === "hero"
-                      ? "text-2xl md:text-4xl font-light"
-                      : "text-xl md:text-2xl font-normal"
-                  }`}
-                  style={{ textWrap: "balance" }}
-                >
-                  {feature.title}
-                </h3>
-
-                <p
-                  className={`mt-3 md:mt-4 text-bridge-ink/70 leading-relaxed font-sans font-light ${
-                    feature.size === "hero" ? "text-base md:text-lg" : "text-sm"
-                  }`}
-                  style={{ textWrap: "pretty" }}
-                >
-                  {feature.description}
-                </p>
-
-                {/* Filet décoratif animé pour la tile hero */}
-                {feature.size === "hero" && (
-                  <motion.div
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 1.4,
-                      delay: 0.5,
-                      ease: [0.32, 0.72, 0, 1],
-                    }}
-                    className="mt-auto pt-8 md:pt-10 origin-left"
-                  >
-                    <div
-                      className="h-px w-full"
-                      style={{
-                        background:
-                          "linear-gradient(90deg, var(--color-atlas-clay) 0%, transparent 100%)",
-                      }}
-                    />
-                  </motion.div>
-                )}
-              </div>
-            </motion.article>
+              feature={feature}
+              index={i}
+            />
           ))}
         </div>
 
         {/* Bandeau impacts chiffrés — full width séparé */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.4 }}
+        <Reveal
+          y={0}
+          duration={1}
+          delay={0.4}
+          noBlur
           className="mt-16 md:mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 py-10 md:py-12 border-t border-atlas-ochre/25 border-b"
         >
           {IMPACTS.map((impact) => (
@@ -227,7 +128,7 @@ export function BledisSection() {
               label={impact.label}
             />
           ))}
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

@@ -1,22 +1,19 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Image from "next/image";
-import { fadeInUp } from "@/lib/animations";
 import { COOPERATIVE_PRODUCTS } from "@/lib/data/products";
 import { EyebrowBadge } from "@/components/ui/EyebrowBadge";
+import { Reveal } from "@/components/interactive/Reveal";
+import { CooperativeFilet } from "./parts/Cooperative/CooperativeFilet";
 
 /**
- * Coopérative — Zig-zag 2-col éditorial.
+ * Coopérative — Server Component (no "use client").
  *
- * Layout : alternance texte/image gauche-droite à chaque produit (4 produits =
- * 4 rangées zig-zag). Anti-3-column-card-grid (banni par soft-skill §2).
+ * Zig-zag 2-col éditorial : alternance texte/image gauche-droite à chaque
+ * produit (4 produits = 4 rangées zig-zag). Anti-3-column-card-grid.
  *
- * Patterns :
- *  - Editorial split par rangée
- *  - Index numérique éditorial (01., 02., 03., 04.) — pattern magazine
- *  - Photos picsum seedées (relevant + stable)
- *  - Custom cubic-bezier sur reveal
+ * Architecture client/serveur :
+ *  - Wrapper de section, fond, en-tête, markup des rangées : serveur (HTML pur).
+ *  - <Reveal> (fade-up + blur) pour l'en-tête et chaque article zig-zag.
+ *  - <CooperativeFilet> sub-client pour le filet décoratif scaleX.
  */
 
 const PRODUCT_IMAGES = [
@@ -34,13 +31,7 @@ export function CooperativeSection() {
     >
       <div className="relative max-w-[1400px] mx-auto">
         {/* En-tête éditorial */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          className="mb-16 md:mb-24 max-w-3xl"
-        >
+        <Reveal className="mb-16 md:mb-24 max-w-3xl">
           <EyebrowBadge variant="atlas" className="mb-5">
             Coopérative · Production locale
           </EyebrowBadge>
@@ -55,22 +46,19 @@ export function CooperativeSection() {
             Savonnerie artisanale et huiles vierges produites par les femmes du
             village. Chaque achat finance directement leur autonomie économique.
           </p>
-        </motion.div>
+        </Reveal>
 
         {/* Zig-zag rows */}
         <div className="space-y-20 md:space-y-32 lg:space-y-40">
           {COOPERATIVE_PRODUCTS.map((product, i) => {
             const isReverse = i % 2 === 1;
             return (
-              <motion.article
+              <Reveal
                 key={product.name}
-                initial={{ opacity: 0, y: 50, filter: "blur(8px)" }}
-                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{
-                  duration: 1,
-                  ease: [0.32, 0.72, 0, 1],
-                }}
+                as="article"
+                delay={i * 0.1}
+                y={50}
+                duration={1}
                 className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center ${
                   isReverse ? "lg:[direction:rtl]" : ""
                 }`}
@@ -118,17 +106,7 @@ export function CooperativeSection() {
                   </h3>
 
                   {/* Filet décoratif */}
-                  <motion.div
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 1.2,
-                      delay: 0.4,
-                      ease: [0.32, 0.72, 0, 1],
-                    }}
-                    className="my-6 md:my-7 h-px w-16 bg-atlas-clay origin-left"
-                  />
+                  <CooperativeFilet />
 
                   <p
                     className="text-base md:text-lg text-bridge-ink/70 leading-[1.6] font-light max-w-[50ch]"
@@ -150,7 +128,7 @@ export function CooperativeSection() {
                     </span>
                   </div>
                 </div>
-              </motion.article>
+              </Reveal>
             );
           })}
         </div>
