@@ -21,6 +21,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/cooperative", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/kiosque", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/loire", priority: 0.75, changeFrequency: "yearly" as const },
+    { path: "/mentions-legales", priority: 0.2, changeFrequency: "yearly" as const },
+    { path: "/confidentialite", priority: 0.2, changeFrequency: "yearly" as const },
   ];
 
   // Ancres sur la home — utiles pour les sitelinks Google

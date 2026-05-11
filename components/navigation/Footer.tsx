@@ -81,8 +81,8 @@ export function Footer() {
       <div className="relative max-w-6xl mx-auto mt-16 pt-8 border-t border-loire-pale/15 flex flex-col md:flex-row justify-between gap-4 text-xs text-loire-pale/60 font-sans">
         <p>© {new Date().getFullYear()} Association Partage — Tous droits réservés</p>
         <div className="flex gap-6">
-          <a href="#" className="hover:text-atlas-cream transition-colors">Mentions légales</a>
-          <a href="#" className="hover:text-atlas-cream transition-colors">Politique RGPD</a>
+          <Link href="/mentions-legales" className="hover:text-atlas-cream transition-colors">Mentions légales</Link>
+          <Link href="/confidentialite" className="hover:text-atlas-cream transition-colors">Politique RGPD</Link>
         </div>
       </div>
     </footer>
