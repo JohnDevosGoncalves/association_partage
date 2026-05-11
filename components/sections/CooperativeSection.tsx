@@ -2,6 +2,7 @@ import Image from "next/image";
 import { COOPERATIVE_PRODUCTS } from "@/lib/data/products";
 import { EyebrowBadge } from "@/components/ui/EyebrowBadge";
 import { Reveal } from "@/components/interactive/Reveal";
+import { SectionFooterCTA } from "@/components/ui/SectionFooterCTA";
 import { CooperativeFilet } from "./parts/Cooperative/CooperativeFilet";
 
 /**
@@ -138,6 +139,13 @@ export function CooperativeSection() {
             );
           })}
         </div>
+
+        <SectionFooterCTA
+          href="/cooperative"
+          eyebrow="Atelier et recettes"
+          label="Découvrir la Coopérative"
+          variant="atlas"
+        />
       </div>
     </section>
   );

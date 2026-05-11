@@ -129,12 +129,19 @@ export function Hero() {
           <span className="text-[0.6rem] md:text-xs uppercase tracking-[0.3em] text-bridge-ink/60 font-sans">
             Le voyage commence
           </span>
-          <div className="flex items-center gap-6 text-[0.6rem] md:text-xs uppercase tracking-[0.25em] text-bridge-ink/60 font-sans">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 md:gap-x-6 text-[0.6rem] md:text-xs uppercase tracking-[0.25em] text-bridge-ink/60 font-sans">
             <Link
-              href="/histoire"
-              className="hover:text-atlas-saffron transition-colors duration-500"
+              href="/loire"
+              className="hover:text-loire-deep transition-colors duration-500"
             >
-              Histoire
+              De la Loire
+            </Link>
+            <span className="block w-3 h-px bg-bridge-ink/25" />
+            <Link
+              href="/maroc"
+              className="hover:text-atlas-clay transition-colors duration-500"
+            >
+              Au Haut-Atlas
             </Link>
             <span className="block w-3 h-px bg-bridge-ink/25" />
             <Link

@@ -1,6 +1,7 @@
 import { KIOSQUE_PARTNERS, type Partner } from "@/lib/data/products";
 import { EyebrowBadge } from "@/components/ui/EyebrowBadge";
 import { Reveal } from "@/components/interactive/Reveal";
+import { SectionFooterCTA } from "@/components/ui/SectionFooterCTA";
 import { KiosqueSpread } from "./parts/Kiosque/KiosqueSpread";
 
 /**
@@ -79,6 +80,13 @@ export function KiosqueSection() {
             />
           ))}
         </div>
+
+        <SectionFooterCTA
+          href="/kiosque"
+          eyebrow="Les artisans, un à un"
+          label="Visiter le Kiosque d'Agadir"
+          variant="dark"
+        />
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import { EyebrowBadge } from "@/components/ui/EyebrowBadge";
 import { Reveal } from "@/components/interactive/Reveal";
+import { SectionFooterCTA } from "@/components/ui/SectionFooterCTA";
 import { AstronomieHeroStats } from "./parts/Astronomie/AstronomieHeroStats";
 import { AstronomieFeatureTile } from "./parts/Astronomie/AstronomieFeatureTile";
 
@@ -139,6 +140,13 @@ export function AstronomieSection() {
             <AstronomieFeatureTile key={card.title} card={card} index={i} />
           ))}
         </div>
+
+        <SectionFooterCTA
+          href="/maroc"
+          eyebrow="Le ciel et le territoire"
+          label="Découvrir la vallée du Haut-Atlas"
+          variant="dark"
+        />
       </div>
     </section>
   );

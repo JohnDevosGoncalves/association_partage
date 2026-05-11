@@ -2,6 +2,7 @@ import { ImpactCounter } from "@/components/ui/ImpactCounter";
 import { IMPACTS } from "@/lib/data/timeline";
 import { EyebrowBadge } from "@/components/ui/EyebrowBadge";
 import { Reveal } from "@/components/interactive/Reveal";
+import { SectionFooterCTA } from "@/components/ui/SectionFooterCTA";
 import {
   BledisFeatureTile,
   type BledisFeature,
@@ -152,6 +153,13 @@ export function BledisSection() {
 
           <EcosystemeGallery />
         </div>
+
+        <SectionFooterCTA
+          href="/maison-bledi"
+          eyebrow="Visite détaillée"
+          label="Explorer la Maison Bledi"
+          variant="atlas"
+        />
       </div>
     </section>
   );

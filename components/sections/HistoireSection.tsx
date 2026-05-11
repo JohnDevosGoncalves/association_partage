@@ -1,6 +1,7 @@
 import { TIMELINE } from "@/lib/data/timeline";
 import { EyebrowBadge } from "@/components/ui/EyebrowBadge";
 import { Reveal } from "@/components/interactive/Reveal";
+import { SectionFooterCTA } from "@/components/ui/SectionFooterCTA";
 import { HistoireTimelineEvent } from "./parts/Histoire/HistoireTimelineEvent";
 import { SriLankaGallery } from "./parts/Histoire/SriLankaGallery";
 
@@ -77,6 +78,13 @@ export function HistoireSection() {
             ))}
           </ol>
         </div>
+
+        <SectionFooterCTA
+          href="/histoire"
+          eyebrow="Le récit complet"
+          label="Lire l'histoire de l'association"
+          variant="loire"
+        />
       </div>
     </section>
   );
