@@ -8,6 +8,7 @@ const NAV_PAGES = [
   { href: "/cooperative", label: "La Coopérative" },
   { href: "/kiosque", label: "Le Kiosque" },
   { href: "/mecenat", label: "Devenir mécène" },
+  { href: "/blog", label: "Le blog" },
 ];
 
 export function Footer() {

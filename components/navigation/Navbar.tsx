@@ -21,6 +21,7 @@ const NAV_LINKS = [
 const TERRITOIRES_LINKS = [
   { href: "/loire", label: "La Loire" },
   { href: "/maroc", label: "Le Maroc" },
+  { href: "/blog", label: "Le blog" },
 ];
 
 const DESKTOP_LINKS = NAV_LINKS.filter((l) =>

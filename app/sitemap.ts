@@ -1,17 +1,20 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo";
+import { getAllPosts } from "@/lib/blog";
 
 /**
  * Sitemap XML — généré automatiquement à /sitemap.xml.
- * Inclut la home + 7 pages dédiées + ancres sur la home.
+ * Inclut la home + pages dédiées + blog index + tous les articles publiés
+ * + ancres sur la home.
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
 
   // Pages dédiées — priorité haute, indexation prioritaire
   const dedicatedPages = [
     { path: "/mecenat", priority: 1.0, changeFrequency: "monthly" as const },
     { path: "/maison-bledi", priority: 0.9, changeFrequency: "monthly" as const },
+    { path: "/blog", priority: 0.9, changeFrequency: "weekly" as const },
     { path: "/maroc", priority: 0.85, changeFrequency: "yearly" as const },
     { path: "/histoire", priority: 0.8, changeFrequency: "yearly" as const },
     { path: "/cooperative", priority: 0.8, changeFrequency: "monthly" as const },
@@ -29,6 +32,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { hash: "#contact", priority: 0.6 },
   ];
 
+  // Articles de blog — priorité 0.7, fréquence yearly (contenu evergreen)
+  const posts = await getAllPosts();
+  const blogPosts = posts.map((p) => ({
+    url: `${SITE_URL}/blog/${p.slug}`,
+    lastModified: new Date(p.updated ?? p.published),
+    changeFrequency: "yearly" as const,
+    priority: 0.7,
+  }));
+
   return [
     {
       url: SITE_URL,
@@ -42,6 +54,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: p.changeFrequency,
       priority: p.priority,
     })),
+    ...blogPosts,
     ...homeAnchors.map((a) => ({
       url: `${SITE_URL}/${a.hash}`,
       lastModified,
