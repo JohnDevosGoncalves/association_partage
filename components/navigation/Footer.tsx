@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Script from "next/script";
 
 const NAV_PAGES = [
   { href: "/histoire", label: "Notre histoire" },
@@ -78,13 +79,29 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="relative max-w-6xl mx-auto mt-16 pt-8 border-t border-loire-pale/15 flex flex-col md:flex-row justify-between gap-4 text-xs text-loire-pale/60 font-sans">
+      <div className="relative max-w-6xl mx-auto mt-16 pt-8 border-t border-loire-pale/15 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-xs text-loire-pale/60 font-sans">
         <p>© {new Date().getFullYear()} Association Partage — Tous droits réservés</p>
-        <div className="flex gap-6">
-          <Link href="/mentions-legales" className="hover:text-atlas-cream transition-colors">Mentions légales</Link>
-          <Link href="/confidentialite" className="hover:text-atlas-cream transition-colors">Politique RGPD</Link>
+
+        <div className="flex flex-col-reverse md:flex-row md:items-center gap-4 md:gap-6">
+          <a
+            href="https://www.websitecarbon.com/website/association-partage-vercel-app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Empreinte carbone de ce site — voir le rapport Website Carbon"
+            title="Empreinte carbone du site — Website Carbon"
+          >
+            <div id="wcb" className="carbonbadge wcb-d" />
+          </a>
+          <div className="flex gap-6">
+            <Link href="/mentions-legales" className="hover:text-atlas-cream transition-colors">Mentions légales</Link>
+            <Link href="/confidentialite" className="hover:text-atlas-cream transition-colors">Politique RGPD</Link>
+          </div>
         </div>
       </div>
+      <Script
+        src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js"
+        strategy="lazyOnload"
+      />
     </footer>
   );
 }

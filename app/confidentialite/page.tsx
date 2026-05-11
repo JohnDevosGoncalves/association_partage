@@ -286,6 +286,14 @@ export default function ConfidentialitePage() {
                 requièrent pas de consentement préalable au sens de l'article
                 82 de la loi Informatique et Libertés.
               </p>
+              <p className="mt-3">
+                Le pied de page affiche un <strong>badge Website Carbon</strong>{" "}
+                indiquant la note d'impact environnemental du site. Ce badge
+                effectue un appel HTTPS unique vers{" "}
+                <em>websitecarbon.com</em> pour récupérer la note. Aucune
+                donnée personnelle, aucun cookie, aucun identifiant n'est
+                transmis dans cette requête.
+              </p>
             </section>
 
             <section>
