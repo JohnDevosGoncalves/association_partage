@@ -59,35 +59,95 @@ export function HistoireSection() {
           </Reveal>
         </div>
 
-        {/* Bandeau photo emblématique — humanise le récit */}
+        {/* Bandeau photo emblématique — Opération Cartable Sri Lanka */}
         <Reveal
           y={40}
           duration={1}
-          className="relative w-full aspect-[16/7] md:aspect-[21/8] rounded-[1.5rem] overflow-hidden mb-16 md:mb-24 shadow-[0_30px_60px_-20px_rgba(27,58,91,0.3)]"
+          className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-[1.5rem] overflow-hidden mb-16 md:mb-24 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.3)]"
         >
           <Image
-            src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=2400&q=75&auto=format&fit=crop"
-            alt="Enfants en classe — la mission de scolarisation, geste fondateur de l'association depuis 2015"
+            src="/images/sri-lanka/groupe-classe.jpg"
+            alt="Groupe d'enfants sri-lankais en uniforme et bénévoles — bras levés en V de victoire devant l'école, après la remise des cartables"
             fill
             sizes="(max-width: 1400px) 100vw, 1400px"
-            quality={75}
+            quality={78}
             className="object-cover"
           />
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "linear-gradient(180deg, rgba(27,58,91,0) 40%, rgba(27,58,91,0.55) 100%)",
+                "linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.65) 100%)",
             }}
           />
-          <div className="absolute bottom-5 left-5 md:bottom-8 md:left-10 max-w-md text-loire-pale">
-            <p className="text-[0.6rem] md:text-xs uppercase tracking-[0.3em] font-sans font-medium opacity-80">
-              Sri Lanka · Mission scolarisation
+          <div className="absolute bottom-5 left-5 md:bottom-10 md:left-12 max-w-lg text-loire-pale">
+            <p className="text-[0.6rem] md:text-xs uppercase tracking-[0.3em] font-sans font-medium opacity-85">
+              Sri Lanka · Opération Cartable
             </p>
-            <p className="font-serif italic text-lg md:text-2xl mt-2 leading-tight">
-              "Tout commence par un cartable."
+            <p
+              className="font-serif italic text-xl md:text-3xl lg:text-4xl mt-2 leading-tight"
+              style={{ textShadow: "0 2px 16px rgba(0,0,0,0.5)" }}
+            >
+              «&nbsp;Tout commence par un cartable.&nbsp;»
+            </p>
+            <p className="mt-3 text-[0.7rem] md:text-sm font-sans text-loire-pale/75 leading-relaxed max-w-md">
+              Depuis 2015, chaque rentrée scolaire, 30 enfants reçoivent leurs
+              fournitures, leur transport et leur dignité.
             </p>
           </div>
+        </Reveal>
+
+        {/* Galerie secondaire Sri Lanka — 3 vignettes de moments */}
+        <Reveal
+          delay={0.2}
+          y={40}
+          duration={1}
+          className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5 mb-16 md:mb-24"
+        >
+          {[
+            {
+              src: "/images/sri-lanka/groupe-cartables.jpg",
+              alt: "Remise des cartables aux enfants",
+              caption: "La remise",
+            },
+            {
+              src: "/images/sri-lanka/enfant-merci.jpg",
+              alt: "Échange thumbs-up entre une élève et un bénévole",
+              caption: "Le merci",
+            },
+            {
+              src: "/images/sri-lanka/medaille-merci.jpg",
+              alt: "Femme et bénévole brandissant une médaille de remerciement",
+              caption: "La médaille",
+            },
+          ].map((photo) => (
+            <figure
+              key={photo.src}
+              className="relative aspect-[4/5] rounded-[1rem] overflow-hidden group"
+            >
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                fill
+                sizes="(max-width: 768px) 50vw, 33vw"
+                quality={75}
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                style={{
+                  transitionTimingFunction: "var(--ease-quintet)",
+                }}
+              />
+              <div
+                className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 100%)",
+                }}
+              />
+              <figcaption className="absolute bottom-3 left-4 text-loire-pale text-[0.6rem] uppercase tracking-[0.25em] font-sans">
+                {photo.caption}
+              </figcaption>
+            </figure>
+          ))}
         </Reveal>
 
         {/* Timeline */}
