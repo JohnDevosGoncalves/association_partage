@@ -37,11 +37,34 @@ const FAQ = [
     q: "Le mécénat peut-il être étalé dans le temps ?",
     a: "Bien sûr. Une convention triennale ou quinquennale est possible, avec versements annuels. Le niveau de mécénat retenu correspond alors au cumul des versements.",
   },
+  {
+    q: "Quelle différence entre un don et un mécénat ?",
+    a: "Un don, c'est un geste ponctuel — vous nous soutenez sur une action précise, vous recevez un reçu fiscal, c'est fini. Le mécénat, c'est un engagement formalisé par une convention écrite, généralement pluriannuel, avec une affectation claire des fonds (un projet, un équipement, une saison scolaire) et un rapport d'usage annuel. Le mécénat ouvre aussi l'accès aux contreparties — visite de la Maison Bledi, présence aux événements caritatifs, mention dans nos communications. Les deux bénéficient de la même réduction fiscale.",
+  },
+  {
+    q: "Mon don ou mécénat est-il versé en toute sécurité ?",
+    a: "Oui. Les versements se font par virement bancaire directement sur le compte de l'association (RIB transmis à la signature de la convention) ou par chèque à l'ordre de l'Association Partage. Aucun paiement par carte bancaire en ligne pour le moment : c'est un choix délibéré qui élimine tout risque d'interception et évite à l'association les frais de plateforme. Pour les particuliers qui préfèrent une plateforme grand public, nous étudions un partenariat avec HelloAsso.",
+  },
 ];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
 
 export default function MecenatPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <Navbar />
       <main className="bg-bridge-cream">
         <PageHero
@@ -101,7 +124,7 @@ export default function MecenatPage() {
         </section>
 
         {/* FAQ */}
-        <section className="bg-loire-pale/40 py-16 md:py-24 px-5 md:px-6">
+        <section id="faq" className="bg-loire-pale/40 py-16 md:py-24 px-5 md:px-6 scroll-mt-24">
           <div className="max-w-3xl mx-auto">
             <p className="text-[0.65rem] md:text-xs uppercase tracking-[0.4em] text-loire-deep font-sans font-medium text-center">
               Questions fréquentes

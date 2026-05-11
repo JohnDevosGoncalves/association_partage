@@ -11,6 +11,7 @@ const NAV_PAGES = [
   { href: "/partenaires", label: "Les partenaires" },
   { href: "/mecenat", label: "Devenir mécène" },
   { href: "/blog", label: "Le blog" },
+  { href: "/faq", label: "Questions fréquentes" },
 ];
 
 export function Footer() {
