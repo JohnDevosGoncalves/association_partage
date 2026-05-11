@@ -17,6 +17,12 @@ const NAV_LINKS = [
   { href: "/#mecenat", label: "Mécénat" },
 ];
 
+// Pages dédiées territoriales — groupe séparé dans le drawer mobile
+const TERRITOIRES_LINKS = [
+  { href: "/loire", label: "La Loire" },
+  { href: "/maroc", label: "Le Maroc" },
+];
+
 const DESKTOP_LINKS = NAV_LINKS.filter((l) =>
   ["/#histoire", "/#bledi", "/#cooperative", "/#kiosque", "/#mecenat"].includes(
     l.href,
@@ -171,24 +177,54 @@ export function Navbar() {
                 </button>
               </div>
 
-              <ul className="flex-1 overflow-y-auto px-6 py-4">
-                {NAV_LINKS.map((link, i) => (
-                  <motion.li
-                    key={link.href}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 + i * 0.05, duration: 0.3 }}
-                  >
-                    <a
-                      href={link.href}
-                      onClick={() => setOpen(false)}
-                      className="block py-4 font-serif text-2xl text-bridge-ink hover:text-atlas-clay border-b border-loire-stone/40 transition-colors"
+              <div className="flex-1 overflow-y-auto px-6 py-4">
+                <ul>
+                  {NAV_LINKS.map((link, i) => (
+                    <motion.li
+                      key={link.href}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + i * 0.05, duration: 0.3 }}
                     >
-                      {link.label}
-                    </a>
-                  </motion.li>
-                ))}
-              </ul>
+                      <a
+                        href={link.href}
+                        onClick={() => setOpen(false)}
+                        className="block py-4 font-serif text-2xl text-bridge-ink hover:text-atlas-clay border-b border-loire-stone/40 transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    </motion.li>
+                  ))}
+                </ul>
+
+                {/* Groupe Territoires */}
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5, duration: 0.3 }}
+                  className="mt-8 mb-2 text-[0.6rem] uppercase tracking-[0.35em] text-atlas-clay font-sans font-medium"
+                >
+                  Territoires
+                </motion.p>
+                <ul>
+                  {TERRITOIRES_LINKS.map((link, i) => (
+                    <motion.li
+                      key={link.href}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.55 + i * 0.05, duration: 0.3 }}
+                    >
+                      <a
+                        href={link.href}
+                        onClick={() => setOpen(false)}
+                        className="block py-3 font-serif italic text-xl text-bridge-ink/85 hover:text-atlas-saffron border-b border-loire-stone/40 transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
 
               <div className="p-6 border-t border-loire-stone/50 bg-loire-pale/40">
                 <a

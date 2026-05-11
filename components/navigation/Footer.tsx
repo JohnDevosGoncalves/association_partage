@@ -1,3 +1,15 @@
+import Link from "next/link";
+
+const NAV_PAGES = [
+  { href: "/histoire", label: "Notre histoire" },
+  { href: "/maison-bledi", label: "La Maison Bledi" },
+  { href: "/loire", label: "La Loire" },
+  { href: "/maroc", label: "Le Maroc" },
+  { href: "/cooperative", label: "La Coopérative" },
+  { href: "/kiosque", label: "Le Kiosque" },
+  { href: "/mecenat", label: "Devenir mécène" },
+];
+
 export function Footer() {
   return (
     <footer
@@ -8,7 +20,8 @@ export function Footer() {
           "linear-gradient(135deg, var(--color-loire-deep) 0%, var(--color-bridge-ink) 50%, var(--color-atlas-clay) 100%)",
       }}
     >
-      <div className="relative max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div className="relative max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        {/* Colonne 1 — Brand */}
         <div>
           <p className="font-serif italic text-2xl">
             Association <span className="text-atlas-saffron">Partage</span>
@@ -19,6 +32,26 @@ export function Footer() {
           </p>
         </div>
 
+        {/* Colonne 2 — Pages */}
+        <nav aria-label="Pages du site">
+          <p className="text-xs uppercase tracking-[0.3em] text-atlas-cream mb-4 font-sans">
+            Explorer
+          </p>
+          <ul className="space-y-2 text-sm text-loire-pale/85">
+            {NAV_PAGES.map((page) => (
+              <li key={page.href}>
+                <Link
+                  href={page.href}
+                  className="hover:text-atlas-saffron transition-colors duration-300"
+                >
+                  {page.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Colonne 3 — Contact France */}
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-atlas-cream mb-4 font-sans">
             Contact France
@@ -30,6 +63,7 @@ export function Footer() {
           </address>
         </div>
 
+        {/* Colonne 4 — Contact Maroc */}
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-atlas-cream mb-4 font-sans">
             Contact Maroc
