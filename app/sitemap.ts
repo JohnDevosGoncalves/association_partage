@@ -3,7 +3,7 @@ import { SITE_URL } from "@/lib/seo";
 
 /**
  * Sitemap XML — généré automatiquement à /sitemap.xml.
- * Inclut la home + 5 pages dédiées + ancres sur la home.
+ * Inclut la home + 7 pages dédiées + ancres sur la home.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
@@ -12,9 +12,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const dedicatedPages = [
     { path: "/mecenat", priority: 1.0, changeFrequency: "monthly" as const },
     { path: "/maison-bledi", priority: 0.9, changeFrequency: "monthly" as const },
+    { path: "/maroc", priority: 0.85, changeFrequency: "yearly" as const },
     { path: "/histoire", priority: 0.8, changeFrequency: "yearly" as const },
     { path: "/cooperative", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/kiosque", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/loire", priority: 0.75, changeFrequency: "yearly" as const },
   ];
 
   // Ancres sur la home — utiles pour les sitelinks Google
