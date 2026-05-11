@@ -4,6 +4,7 @@ import { Footer } from "@/components/navigation/Footer";
 import { PageHero } from "@/components/ui/PageHero";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { RelatedLinks } from "@/components/ui/RelatedLinks";
+import { PartnerLogo } from "@/components/ui/PartnerLogo";
 import {
   EXTENDED_PARTNERS,
   CATEGORY_LABELS,
@@ -149,15 +150,20 @@ export default function PartenairesPage() {
                         rel="noopener noreferrer"
                         className="group block h-full rounded-2xl border border-loire-stone/50 bg-bridge-cream hover:border-atlas-clay/50 hover:shadow-lg transition-all duration-500 p-6 md:p-7"
                       >
-                        <p className="text-[0.6rem] uppercase tracking-[0.25em] text-atlas-clay font-sans font-medium">
-                          {p.role}
-                        </p>
-                        <h3 className="font-serif text-2xl md:text-3xl text-bridge-ink mt-2 leading-tight group-hover:text-atlas-clay transition-colors duration-500">
-                          {p.name}
-                        </h3>
-                        <p className="text-xs text-bridge-ink/55 font-sans mt-1">
-                          {p.city}
-                        </p>
+                        <div className="flex items-start gap-4">
+                          <PartnerLogo slug={p.slug} name={p.name} size={64} />
+                          <div className="min-w-0 flex-1">
+                            <p className="text-[0.6rem] uppercase tracking-[0.25em] text-atlas-clay font-sans font-medium">
+                              {p.role}
+                            </p>
+                            <h3 className="font-serif text-2xl md:text-3xl text-bridge-ink mt-2 leading-tight group-hover:text-atlas-clay transition-colors duration-500">
+                              {p.name}
+                            </h3>
+                            <p className="text-xs text-bridge-ink/55 font-sans mt-1">
+                              {p.city}
+                            </p>
+                          </div>
+                        </div>
                         <p className="mt-4 text-sm md:text-base text-bridge-ink/75 leading-relaxed font-light">
                           {p.description}
                         </p>

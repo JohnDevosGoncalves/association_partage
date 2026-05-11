@@ -242,3 +242,42 @@ export function groupPartnersByCategory(): Record<
   }
   return result;
 }
+
+/**
+ * Manifeste des fichiers logo dans /public/images/partners-logos/.
+ * L'extension varie selon ce que sert chaque site (PNG, JPG, SVG).
+ * Si un slug est absent, le composant PartnerLogo affiche les initiales.
+ */
+const PARTNER_LOGO_FILES: Record<string, string> = {
+  "acr-distribution": "acr-distribution.svg",
+  "allianz-theobald-auchere": "allianz-theobald-auchere.png",
+  "christophe-hay": "christophe-hay.svg",
+  cvlo: "cvlo.png",
+  duralex: "duralex.svg",
+  "equip-jardin": "equip-jardin.png",
+  "golf-de-limere": "golf-de-limere.png",
+  "images-photo-orleans": "images-photo-orleans.jpg",
+  "john-devos": "john-devos.svg",
+  "la-borne-elec-energie": "la-borne-elec-energie.png",
+  "les-cafes-d-eric": "les-cafes-d-eric.jpg",
+  "martin-pouret": "martin-pouret.png",
+  "open-6": "open-6.png",
+  "optima-energie": "optima-energie.webp",
+  prelia: "prelia.png",
+  "sebastien-papion": "sebastien-papion.svg",
+};
+
+export function getPartnerLogoSrc(slug: string): string | null {
+  const file = PARTNER_LOGO_FILES[slug];
+  return file ? `/images/partners-logos/${file}` : null;
+}
+
+/** Initiales du partenaire pour le fallback visuel (max 2 lettres). */
+export function getPartnerInitials(name: string): string {
+  const words = name
+    .split(/\s+/)
+    .filter((w) => w.length > 0 && !/^[&·-]+$/.test(w));
+  if (words.length === 0) return "?";
+  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
+  return (words[0][0] + words[1][0]).toUpperCase();
+}
