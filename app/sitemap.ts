@@ -16,6 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/maison-bledi", priority: 0.9, changeFrequency: "monthly" as const },
     { path: "/blog", priority: 0.9, changeFrequency: "weekly" as const },
     { path: "/maroc", priority: 0.85, changeFrequency: "yearly" as const },
+    { path: "/partenaires", priority: 0.85, changeFrequency: "monthly" as const },
     { path: "/histoire", priority: 0.8, changeFrequency: "yearly" as const },
     { path: "/cooperative", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/kiosque", priority: 0.8, changeFrequency: "monthly" as const },

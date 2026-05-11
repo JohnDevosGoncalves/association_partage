@@ -7,6 +7,7 @@ const NAV_PAGES = [
   { href: "/maroc", label: "Le Maroc" },
   { href: "/cooperative", label: "La Coopérative" },
   { href: "/kiosque", label: "Le Kiosque" },
+  { href: "/partenaires", label: "Les partenaires" },
   { href: "/mecenat", label: "Devenir mécène" },
   { href: "/blog", label: "Le blog" },
 ];

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Navbar } from "@/components/navigation/Navbar";
 import { Footer } from "@/components/navigation/Footer";
 import { PageHero } from "@/components/ui/PageHero";
@@ -7,6 +8,24 @@ import { RelatedLinks } from "@/components/ui/RelatedLinks";
 import { BledisSection } from "@/components/sections/BledisSection";
 import { AstronomieSection } from "@/components/sections/AstronomieSection";
 import { SITE_URL } from "@/lib/seo";
+
+const RENDERS_3D = [
+  {
+    src: "/images/maison-bledi/facade-rouge-rooftop.jpg",
+    alt: "Façade principale de la Maison Bledi en pisé rouge — bâtiment cubique avec trois grandes baies vitrées au rez-de-chaussée et terrasse rooftop ceinturée d'un garde-corps inox, meublée de plantes en pot et fauteuils outdoor",
+    caption: "La façade principale — pisé rouge, baies vitrées plein-pied, rooftop végétalisé",
+  },
+  {
+    src: "/images/maison-bledi/bungalows-hamac.jpg",
+    alt: "Vue de face des deux bungalows de répit en pisé rouge, encadrés de palmiers dattiers et de cactus, avec un hamac tendu entre les deux et deux allées en pierres lumineuses au sol",
+    caption: "Les deux bungalows de répit — pisé ocre, hamac partagé, jardin sec berbère",
+  },
+  {
+    src: "/images/maison-bledi/piscine-aerienne.jpg",
+    alt: "Vue aérienne drone de la piscine en L de la Maison Bledi, encadrée de deux palmiers dattiers et d'une rampe d'accès PMR en pente douce qui descend dans l'eau",
+    caption: "Vue drone — piscine en L avec rampe d'accès PMR et palmiers en symétrie",
+  },
+];
 
 export const metadata: Metadata = {
   title: "La Maison Bledi — centre PMR du Haut-Atlas",
@@ -98,6 +117,82 @@ export default function MaisonBlediPage() {
                 </div>
               ))}
             </dl>
+          </div>
+        </section>
+
+        {/* Galerie des projections 3D — architecture du centre */}
+        <section className="py-16 md:py-24 px-5 md:px-8 lg:px-12 bg-bridge-cream">
+          <div className="max-w-[1400px] mx-auto">
+            <div className="max-w-2xl mb-10 md:mb-14">
+              <p className="text-[0.6rem] md:text-xs uppercase tracking-[0.4em] text-atlas-clay font-sans font-medium">
+                Projections architecturales
+              </p>
+              <h2 className="font-serif text-3xl md:text-5xl text-bridge-ink mt-3 leading-tight font-light tracking-tight">
+                À quoi ressemble{" "}
+                <em className="italic text-atlas-clay">la Maison Bledi</em>
+              </h2>
+              <p className="mt-5 text-base md:text-lg text-bridge-ink/65 leading-relaxed font-light">
+                Trois vues issues du plan architectural du centre — façade
+                principale, bungalows de répit et piscine accessible PMR.
+                Le bâti reprend les codes berbères du pisé teinté à
+                l'ocre rouge, dans un dessin contemporain à toit-terrasse
+                végétalisé.
+              </p>
+            </div>
+
+            {/* Layout asymétrique : 1 grande image + 2 plus petites */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5">
+              {/* Image 1 — façade principale (grande, col-span 8) */}
+              <figure className="md:col-span-8">
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-[0_30px_60px_-20px_rgba(0,0,0,0.25)] bg-loire-stone/20">
+                  <Image
+                    src={RENDERS_3D[0].src}
+                    alt={RENDERS_3D[0].alt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 66vw"
+                    className="object-cover"
+                    quality={85}
+                  />
+                </div>
+                <figcaption className="mt-3 text-xs text-bridge-ink/55 italic font-serif">
+                  {RENDERS_3D[0].caption}
+                </figcaption>
+              </figure>
+
+              {/* Image 2 — bungalows (col-span 4) */}
+              <figure className="md:col-span-4">
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-[0_30px_60px_-20px_rgba(0,0,0,0.25)] bg-loire-stone/20">
+                  <Image
+                    src={RENDERS_3D[1].src}
+                    alt={RENDERS_3D[1].alt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover"
+                    quality={85}
+                  />
+                </div>
+                <figcaption className="mt-3 text-xs text-bridge-ink/55 italic font-serif">
+                  {RENDERS_3D[1].caption}
+                </figcaption>
+              </figure>
+
+              {/* Image 3 — piscine (col-span 12 pleine largeur) */}
+              <figure className="md:col-span-12">
+                <div className="relative aspect-[21/9] md:aspect-[21/8] rounded-2xl overflow-hidden shadow-[0_30px_60px_-20px_rgba(0,0,0,0.25)] bg-loire-stone/20">
+                  <Image
+                    src={RENDERS_3D[2].src}
+                    alt={RENDERS_3D[2].alt}
+                    fill
+                    sizes="100vw"
+                    className="object-cover"
+                    quality={85}
+                  />
+                </div>
+                <figcaption className="mt-3 text-xs text-bridge-ink/55 italic font-serif">
+                  {RENDERS_3D[2].caption}
+                </figcaption>
+              </figure>
+            </div>
           </div>
         </section>
 

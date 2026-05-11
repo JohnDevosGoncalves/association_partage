@@ -45,6 +45,7 @@ Association française reconnue d'intérêt général depuis 2015. Siège à Orl
 - [Le Maroc](${SITE_URL}/maroc): vallée berbère du Haut-Atlas, écosystème, faune et flore
 - [La Coopérative](${SITE_URL}/cooperative): savons et huiles produits par les femmes du village
 - [Le Kiosque Solidaire](${SITE_URL}/kiosque): comptoir gastronomique à Agadir avec artisans orléanais
+- [Nos partenaires](${SITE_URL}/partenaires): 16 partenaires institutionnels et artisans (gastronomie, services, énergie, sport, image)
 - [Devenir mécène](${SITE_URL}/mecenat): 4 niveaux d'engagement, déduction fiscale 60 %
 
 ## Blog
