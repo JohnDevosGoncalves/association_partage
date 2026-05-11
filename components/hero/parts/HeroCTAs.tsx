@@ -20,7 +20,7 @@ export function HeroCTAs() {
       <MagneticButton
         href="/mecenat"
         strength={0.3}
-        className="group relative inline-flex items-center justify-between px-2 py-2 pl-7 bg-bridge-ink hover:bg-atlas-clay text-bridge-cream font-sans font-medium tracking-[-0.01em] text-sm md:text-base rounded-full active:scale-[0.98] transition-[background-color,transform] duration-500"
+        className="group relative inline-flex items-center justify-between px-2 py-2 pl-7 bg-atlas-saffron hover:bg-atlas-terracotta text-loire-pale font-sans font-medium tracking-[-0.01em] text-sm md:text-base rounded-full active:scale-[0.98] transition-[background-color,transform] duration-500 shadow-lg"
       >
         <span className="relative z-10">Soutenir notre mission</span>
         <ArrowIcon size={36} variant="ghost" />
@@ -28,9 +28,9 @@ export function HeroCTAs() {
 
       <Link
         href="/histoire"
-        className="group inline-flex items-center px-7 py-3.5 text-bridge-ink hover:text-atlas-clay font-sans font-medium tracking-[-0.01em] text-sm md:text-base transition-colors duration-500"
+        className="group inline-flex items-center px-7 py-3.5 text-loire-pale hover:text-atlas-cream font-sans font-medium tracking-[-0.01em] text-sm md:text-base transition-colors duration-500"
       >
-        <span className="border-b border-bridge-ink/30 group-hover:border-atlas-clay/60 pb-0.5 transition-colors duration-500">
+        <span className="border-b border-loire-pale/50 group-hover:border-atlas-cream pb-0.5 transition-colors duration-500">
           Notre histoire
         </span>
         <span

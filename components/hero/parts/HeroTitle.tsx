@@ -9,8 +9,11 @@ import { WordReveal } from "@/components/ui/WordReveal";
 export function HeroTitle() {
   return (
     <h1
-      className="font-serif font-light text-bridge-ink leading-[0.92] text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[6.5rem] xl:text-[7.5rem] tracking-[-0.02em]"
-      style={{ textWrap: "balance" }}
+      className="font-serif font-light text-loire-pale leading-[0.92] text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[6.5rem] xl:text-[7.5rem] tracking-[-0.02em]"
+      style={{
+        textWrap: "balance",
+        textShadow: "0 4px 32px rgba(0,0,0,0.55)",
+      }}
     >
       <WordReveal
         text="Entre Terre"
@@ -25,7 +28,7 @@ export function HeroTitle() {
         duration={1.0}
         staggerChildren={0.18}
         delayChildren={0.95}
-        emphasis={{ Loire: "italic font-extralight text-loire-mist" }}
+        emphasis={{ Loire: "italic font-extralight text-atlas-cream" }}
       />
     </h1>
   );
