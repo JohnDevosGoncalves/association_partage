@@ -272,6 +272,17 @@ export function getPartnerLogoSrc(slug: string): string | null {
   return file ? `/images/partners-logos/${file}` : null;
 }
 
+/**
+ * Logos servis en blanc transparent par le partenaire (faits pour fond foncé).
+ * On les force en noir via `filter: brightness(0)` pour qu'ils restent lisibles
+ * sur le fond crème de l'interface.
+ */
+export const WHITE_PARTNER_LOGOS: ReadonlySet<string> = new Set([
+  "la-borne-elec-energie",
+  "golf-de-limere",
+  "john-devos",
+]);
+
 /** Initiales du partenaire pour le fallback visuel (max 2 lettres). */
 export function getPartnerInitials(name: string): string {
   const words = name

@@ -6,6 +6,7 @@ import clsx from "clsx";
 import {
   getPartnerLogoSrc,
   getPartnerInitials,
+  WHITE_PARTNER_LOGOS,
 } from "@/lib/data/partners-extended";
 
 type PartnerLogoProps = {
@@ -15,17 +16,6 @@ type PartnerLogoProps = {
   size?: number;
   className?: string;
 };
-
-/**
- * Logos servis en version "blanche pour fond foncé" par le partenaire.
- * On les force en noir via un filtre CSS pour qu'ils restent lisibles sur
- * le fond crème de la carte.
- */
-const WHITE_LOGOS: ReadonlySet<string> = new Set([
-  "la-borne-elec-energie",
-  "golf-de-limere",
-  "john-devos",
-]);
 
 /**
  * Affiche le logo d'un partenaire dans un cadre carré (object-contain).
@@ -63,7 +53,7 @@ export function PartnerLogo({
           height={size}
           className={clsx(
             "object-contain p-1.5",
-            WHITE_LOGOS.has(slug) && "brightness-0 opacity-80",
+            WHITE_PARTNER_LOGOS.has(slug) && "brightness-0 opacity-80",
           )}
           onError={() => setErrored(true)}
           unoptimized
