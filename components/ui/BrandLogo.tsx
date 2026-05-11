@@ -14,12 +14,11 @@ type BrandLogoProps = {
 /**
  * Logo Association Partage.
  *
- * Comportement :
- *  - Tente d'abord /images/brand/logo.png (votre PNG quand vous le déposerez)
- *  - Fallback sur /images/brand/logo-placeholder.svg en attendant
+ * Photo source : /images/brand/logo.jpg (P stylisé orange + silhouette
+ * d'enfant en négatif + signature "Association Partage" en script).
  *
- * Pour échanger : déposez votre PNG dans public/images/brand/logo.png
- * et changez la prop `src` ci-dessous (ou supprimez le fallback).
+ * Pour fournir une version inversée (fond sombre), créer
+ * /images/brand/logo-white.png et adapter la logique ci-dessous.
  */
 export function BrandLogo({
   size = 64,
@@ -27,10 +26,9 @@ export function BrandLogo({
   inverted = false,
   className,
 }: BrandLogoProps) {
-  const src =
-    variant === "full"
-      ? "/images/brand/logo-placeholder.svg"
-      : "/images/brand/logo-placeholder.svg";
+  // Le fichier est le même pour mark et full pour l'instant
+  // (le logo officiel inclut déjà le wordmark "Association Partage")
+  const src = "/images/brand/logo.jpg";
 
   return (
     <Image
