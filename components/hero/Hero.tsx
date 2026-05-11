@@ -1,6 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
+import { SmartImage } from "@/components/ui/SmartImage";
+import { getFallback } from "@/lib/data/imageFallbacks";
 import { BrandLogo } from "@/components/ui/BrandLogo";
+
+const HERO_PHOTO = "/images/atlas/vallee-graminees.jpg";
 import { HeroTitle } from "./parts/HeroTitle";
 import { HeroCTAs } from "./parts/HeroCTAs";
 import {
@@ -37,8 +40,9 @@ export function Hero() {
     >
       {/* Photo plein écran — vallée du Haut-Atlas (point focal contenu) */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src="/images/atlas/vallee-graminees.jpg"
+        <SmartImage
+          src={HERO_PHOTO}
+          fallbackSrc={getFallback(HERO_PHOTO) ?? ""}
           alt="Vallée du Haut-Atlas marocain : graminées dorées au premier plan, oliviers épars, montagnes en arrière-plan dans la brume"
           fill
           priority

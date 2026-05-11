@@ -1,7 +1,8 @@
-import Image from "next/image";
 import { TIMELINE } from "@/lib/data/timeline";
 import { EyebrowBadge } from "@/components/ui/EyebrowBadge";
 import { Reveal } from "@/components/interactive/Reveal";
+import { SmartImage } from "@/components/ui/SmartImage";
+import { getFallback } from "@/lib/data/imageFallbacks";
 import { HistoireTimelineEvent } from "./parts/Histoire/HistoireTimelineEvent";
 
 /**
@@ -65,8 +66,9 @@ export function HistoireSection() {
           duration={1}
           className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-[1.5rem] overflow-hidden mb-16 md:mb-24 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.3)]"
         >
-          <Image
+          <SmartImage
             src="/images/sri-lanka/groupe-classe.jpg"
+            fallbackSrc={getFallback("/images/sri-lanka/groupe-classe.jpg") ?? ""}
             alt="Groupe d'enfants sri-lankais en uniforme et bénévoles — bras levés en V de victoire devant l'école, après la remise des cartables"
             fill
             sizes="(max-width: 1400px) 100vw, 1400px"
@@ -125,8 +127,9 @@ export function HistoireSection() {
               key={photo.src}
               className="relative aspect-[4/5] rounded-[1rem] overflow-hidden group"
             >
-              <Image
+              <SmartImage
                 src={photo.src}
+                fallbackSrc={getFallback(photo.src) ?? ""}
                 alt={photo.alt}
                 fill
                 sizes="(max-width: 768px) 50vw, 33vw"

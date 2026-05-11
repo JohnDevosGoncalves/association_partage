@@ -1,8 +1,9 @@
-import Image from "next/image";
 import { ImpactCounter } from "@/components/ui/ImpactCounter";
 import { IMPACTS } from "@/lib/data/timeline";
 import { EyebrowBadge } from "@/components/ui/EyebrowBadge";
 import { Reveal } from "@/components/interactive/Reveal";
+import { SmartImage } from "@/components/ui/SmartImage";
+import { getFallback } from "@/lib/data/imageFallbacks";
 import {
   BledisFeatureTile,
   type BledisFeature,
@@ -194,8 +195,9 @@ export function BledisSection() {
                 key={photo.src}
                 className={`relative ${photo.span} rounded-[1rem] overflow-hidden group`}
               >
-                <Image
+                <SmartImage
                   src={photo.src}
+                  fallbackSrc={getFallback(photo.src) ?? ""}
                   alt={photo.alt}
                   fill
                   sizes={

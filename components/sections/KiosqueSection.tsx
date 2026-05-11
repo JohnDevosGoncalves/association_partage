@@ -1,7 +1,8 @@
-import Image from "next/image";
 import { KIOSQUE_PARTNERS } from "@/lib/data/products";
 import { EyebrowBadge } from "@/components/ui/EyebrowBadge";
 import { Reveal } from "@/components/interactive/Reveal";
+import { SmartImage } from "@/components/ui/SmartImage";
+import { getFallback } from "@/lib/data/imageFallbacks";
 
 /**
  * Kiosque Solidaire — Editorial spread 4 partenaires (Server Component).
@@ -92,8 +93,9 @@ export function KiosqueSection() {
                   className={`lg:col-span-7 ${isReverse ? "lg:[direction:ltr]" : ""}`}
                 >
                   <div className="relative aspect-[4/5] sm:aspect-[3/2] lg:aspect-[4/5] rounded-[1.5rem] overflow-hidden ring-1 ring-loire-pale/8 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6)]">
-                    <Image
+                    <SmartImage
                       src={partner.heroImage}
+                      fallbackSrc={getFallback(partner.heroImage) ?? ""}
                       alt={`${partner.name} — ${partner.craft}`}
                       fill
                       sizes="(max-width: 1024px) 100vw, 60vw"
@@ -164,8 +166,9 @@ export function KiosqueSection() {
                   {partner.detailImage !== partner.heroImage && (
                     <div className="mt-8 flex items-center gap-4">
                       <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden ring-1 ring-loire-pale/15">
-                        <Image
+                        <SmartImage
                           src={partner.detailImage}
+                          fallbackSrc={getFallback(partner.detailImage) ?? ""}
                           alt=""
                           fill
                           sizes="96px"
