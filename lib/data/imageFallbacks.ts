@@ -25,7 +25,7 @@ export const IMAGE_FALLBACKS: Record<string, string> = {
   "/images/sri-lanka/groupe-classe.jpg": u("1503676260728-1c00da094a0b", 2400),
   "/images/sri-lanka/groupe-cartables.jpg": u("1488521787991-ed7bbaae773c"),
   "/images/sri-lanka/enfant-merci.jpg": u("1488521787991-ed7bbaae773c"),
-  "/images/sri-lanka/enseignante-cadeau.jpg": u("1486916856361-4d24e2d18619"),
+  "/images/sri-lanka/enseignante-cadeau.jpg": u("1469474968028-56623f02e42e"),
   "/images/sri-lanka/medaille-merci.jpg": u("1469474968028-56623f02e42e"),
 
   // ─── Partenaires Kiosque ──────────────────────
@@ -37,13 +37,13 @@ export const IMAGE_FALLBACKS: Record<string, string> = {
 
   "/images/partners/sebastien-papion/portrait.jpg": u("1577219491135-ce391730fb2c"),
   "/images/partners/sebastien-papion/portrait-large.jpg": u("1577219491135-ce391730fb2c"),
-  "/images/partners/sebastien-papion/produit-papienella.jpg": u("1599599810694-57a2ca8276a8"),
-  "/images/partners/sebastien-papion/interaction.jpg": u("1599599810694-57a2ca8276a8"),
+  "/images/partners/sebastien-papion/produit-papienella.jpg": u("1488477181946-6428a0291777"),
+  "/images/partners/sebastien-papion/interaction.jpg": u("1556909114-f6e7ad7d3136"),
 
-  "/images/partners/martin-pouret/portrait-fondateurs.jpg": u("1574775395858-3a5cd6e0a5c3"),
+  "/images/partners/martin-pouret/portrait-fondateurs.jpg": u("1551776235-dde6d482980b"),
   "/images/partners/martin-pouret/produit-moutarde.jpg": u("1474979266404-7eaacbcd87c5"),
 
-  "/images/partners/duralex/verres-picardie.jpg": u("1592991538534-00d62fdc41a9"),
+  "/images/partners/duralex/verres-picardie.jpg": u("1474979266404-7eaacbcd87c5"),
 };
 
 /**
