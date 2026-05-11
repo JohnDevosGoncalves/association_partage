@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Script from "next/script";
 
 const NAV_PAGES = [
   { href: "/histoire", label: "Notre histoire" },
@@ -88,10 +87,22 @@ export function Footer() {
             href="https://www.websitecarbon.com/website/association-partage-vercel-app/"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Empreinte carbone de ce site — voir le rapport Website Carbon"
-            title="Empreinte carbone du site — Website Carbon"
+            aria-label="Empreinte carbone — voir le rapport public Website Carbon"
+            title="Note A · 0,06 g de CO₂ par vue — rapport Website Carbon"
+            className="inline-flex items-stretch rounded-md overflow-hidden text-[11px] font-sans tracking-tight shadow-sm hover:shadow-md transition-shadow"
           >
-            <div id="wcb" className="carbonbadge wcb-d" />
+            <span className="bg-loire-pale text-bridge-ink px-2.5 py-1.5 font-semibold leading-none flex items-center gap-1.5">
+              A
+              <span className="text-bridge-ink/65 font-normal">
+                · 0,06 g CO₂/vue
+              </span>
+            </span>
+            <span
+              className="px-2.5 py-1.5 font-semibold leading-none flex items-center"
+              style={{ backgroundColor: "#00ffbc", color: "#0e11a8" }}
+            >
+              Website Carbon
+            </span>
           </a>
           <div className="flex gap-6">
             <Link href="/mentions-legales" className="hover:text-atlas-cream transition-colors">Mentions légales</Link>
@@ -99,10 +110,6 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <Script
-        src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js"
-        strategy="lazyOnload"
-      />
     </footer>
   );
 }
