@@ -50,18 +50,6 @@
   :root {
     --background: var(--color-bridge-cream);
     --foreground: var(--color-bridge-ink);
-    --section-tint: transparent;
-  }
-
-  /* Mode Nuit Astronomie — bascule via <html data-theme="night"> */
-  html[data-theme="night"] {
-    --background: var(--color-night-deep);
-    --foreground: var(--color-loire-pale);
-    --section-tint: rgba(5, 10, 26, 0.55);
-  }
-
-  html {
-    transition: background-color 0.8s ease;
   }
 
   body {
@@ -71,9 +59,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    transition:
-      background-color 0.8s ease,
-      color 0.8s ease;
   }
 
   /* Typographie : balance pour les titres (text-wrap balance évite les
@@ -88,28 +73,6 @@
   /* Tabular figures par défaut sur les <dt> et .tabular utilisés dans les stats */
   dt, .tabular {
     font-variant-numeric: tabular-nums;
-  }
-
-  /* Voile global appliqué aux sections en mode nuit. Les sections gardent
-     leur identité chromatique mais s'estompent dans la nuit. */
-  html[data-theme="night"] section,
-  html[data-theme="night"] footer {
-    position: relative;
-  }
-  html[data-theme="night"] section::before,
-  html[data-theme="night"] footer::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--section-tint);
-    pointer-events: none;
-    z-index: 0;
-    transition: background 0.8s ease;
-  }
-  html[data-theme="night"] section > *,
-  html[data-theme="night"] footer > * {
-    position: relative;
-    z-index: 1;
   }
 }
 

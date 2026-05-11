@@ -2,45 +2,11 @@ import { ImpactCounter } from "@/components/ui/ImpactCounter";
 import { IMPACTS } from "@/lib/data/timeline";
 import { EyebrowBadge } from "@/components/ui/EyebrowBadge";
 import { Reveal } from "@/components/interactive/Reveal";
-import { SmartImage } from "@/components/ui/SmartImage";
-import { getFallback } from "@/lib/data/imageFallbacks";
 import {
   BledisFeatureTile,
   type BledisFeature,
 } from "./parts/Bledis/BledisFeatureTile";
-
-const ECOSYSTEME_PHOTOS = [
-  {
-    src: "/images/atlas/village-pise.jpg",
-    alt: "Village berbère en pisé ocre sur flanc de colline avec terrasses cultivées",
-    caption: "Le village voisin",
-    span: "col-span-12 md:col-span-7 row-span-2",
-  },
-  {
-    src: "/images/atlas/cascade-oasis.jpg",
-    alt: "Cascade dans canyon, palmiers et eau émeraude au pied de falaises rouges",
-    caption: "L'oasis",
-    span: "col-span-6 md:col-span-5",
-  },
-  {
-    src: "/images/atlas/riviere-heron.jpg",
-    alt: "Rivière aux roches ocre avec une aigrette blanche posée sur un rocher",
-    caption: "L'oued",
-    span: "col-span-6 md:col-span-5",
-  },
-  {
-    src: "/images/atlas/ecureuil-berberie.jpg",
-    alt: "Écureuil de Berbérie dans les herbes sèches dorées",
-    caption: "L'écureuil de Berbérie",
-    span: "col-span-6 md:col-span-6",
-  },
-  {
-    src: "/images/atlas/agame-rocher.jpg",
-    alt: "Lézard agame bleu-vert posé sur un rocher rouge",
-    caption: "L'agame",
-    span: "col-span-6 md:col-span-6",
-  },
-];
+import { EcosystemeGallery } from "./parts/Bledis/EcosystemeGallery";
 
 /**
  * Maison Bledi — Server Component (no "use client").
@@ -184,46 +150,7 @@ export function BledisSection() {
             </p>
           </Reveal>
 
-          <Reveal
-            delay={0.2}
-            y={40}
-            duration={1}
-            className="grid grid-cols-12 gap-3 md:gap-4 auto-rows-[180px] md:auto-rows-[220px]"
-          >
-            {ECOSYSTEME_PHOTOS.map((photo, i) => (
-              <figure
-                key={photo.src}
-                className={`relative ${photo.span} rounded-[1rem] overflow-hidden group`}
-              >
-                <SmartImage
-                  src={photo.src}
-                  fallbackSrc={getFallback(photo.src) ?? ""}
-                  alt={photo.alt}
-                  fill
-                  sizes={
-                    i === 0
-                      ? "(max-width: 768px) 100vw, 60vw"
-                      : "(max-width: 768px) 50vw, 30vw"
-                  }
-                  quality={75}
-                  className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                  style={{
-                    transitionTimingFunction: "var(--ease-quintet)",
-                  }}
-                />
-                <div
-                  className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 100%)",
-                  }}
-                />
-                <figcaption className="absolute bottom-3 left-4 md:bottom-4 md:left-5 text-loire-pale text-[0.6rem] md:text-xs uppercase tracking-[0.25em] font-sans">
-                  {photo.caption}
-                </figcaption>
-              </figure>
-            ))}
-          </Reveal>
+          <EcosystemeGallery />
         </div>
       </div>
     </section>

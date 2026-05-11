@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import clsx from "clsx";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 
 // Liens absolus avec ancre — fonctionnent depuis n'importe quelle page
@@ -92,8 +91,6 @@ export function Navbar() {
           </ul>
 
           <div className="flex items-center gap-2 md:gap-3">
-            <ThemeToggle variant="dark" />
-
             {/* Bouton "Soutenir" — visible desktop seulement */}
             <a
               href="/mecenat"

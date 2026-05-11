@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Geist } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/lib/ThemeContext";
-import { StarField } from "@/components/ui/StarField";
 import {
   SITE_URL,
   SITE_NAME,
@@ -117,32 +115,15 @@ const websiteJsonLd = {
   description: SITE_DESCRIPTION,
 };
 
-// Évite le "flash" du mauvais thème : applique le thème sauvegardé
-// dans localStorage avant que React n'hydrate la page.
-const themeInitScript = `
-(function() {
-  try {
-    var saved = localStorage.getItem('ap-theme');
-    if (saved === 'night' || saved === 'day') {
-      document.documentElement.dataset.theme = saved;
-    } else {
-      document.documentElement.dataset.theme = 'day';
-    }
-  } catch (e) {}
-})();
-`;
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="fr"
-      data-theme="day"
       className={`${cormorant.variable} ${geist.variable} h-full antialiased`}
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -157,12 +138,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col">
-        <ThemeProvider>
-          <StarField />
-          {/* Grain overlay global — fixed pour ne pas re-paint au scroll */}
-          <div className="grain-overlay" aria-hidden="true" />
-          {children}
-        </ThemeProvider>
+        {/* Grain overlay global — fixed pour ne pas re-paint au scroll */}
+        <div className="grain-overlay" aria-hidden="true" />
+        {children}
       </body>
     </html>
   );

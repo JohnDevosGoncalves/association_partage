@@ -1,34 +1,14 @@
 import { EyebrowBadge } from "@/components/ui/EyebrowBadge";
 import { Reveal } from "@/components/interactive/Reveal";
-import { AstronomieThemedShell } from "./parts/Astronomie/AstronomieThemedShell";
 import { AstronomieHeroStats } from "./parts/Astronomie/AstronomieHeroStats";
 import { AstronomieFeatureTile } from "./parts/Astronomie/AstronomieFeatureTile";
-import { AstronomieToggle } from "./parts/Astronomie/AstronomieToggle";
 
 /**
  * Astronomie — Server Component (no "use client").
  *
  * Bento 2x2 cosmique avec 1 grande tile centrale + 3 satellites.
- *
- * Patterns appliqués :
- *  - Vibe Archetype "Ethereal Glass" (deep night bg + radial gradients)
- *  - Bento avec sizes variés (1 hero + 3 compact)
- *  - Custom cubic-bezier
- *  - Tabular nums sur stats
- *  - Spring + blur reveal au scroll
- *
- * Architecture client/serveur :
- *  - <AstronomieThemedShell /> est la coque qui dépend de useTheme() (background
- *    radial + opacity SVG constellations). Wraps le contenu.
- *  - <AstronomieHeroStats />, <AstronomieFeatureTile />, <AstronomieToggle />
- *    sont des leaves clients pour leurs animations Framer Motion / onClick.
- *  - L'en-tête éditorial est wrappé dans <Reveal>.
- *  - Les data (STATS, FEATURES) restent côté serveur et sont passées en props.
- *
- * Note : useTheme() étant requis pour switcher background + opacity SVG
- * dynamiquement (les valeurs ne sont pas trivialement réductibles à du CSS
- * data-theme), on garde une coque cliente. Le ratio reste favorable :
- * tout le markup textuel et data est statique.
+ * Mode nuit retiré (demande client) — la section reste cosmique
+ * grâce au background sombre fixe.
  */
 
 const STATS = [
@@ -57,9 +37,85 @@ const FEATURES = [
 
 export function AstronomieSection() {
   return (
-    <AstronomieThemedShell>
+    <section
+      id="astronomie"
+      className="relative py-24 md:py-32 lg:py-40 px-5 md:px-8 lg:px-12 overflow-hidden"
+      style={{
+        background:
+          "radial-gradient(ellipse at center, #1f2d4d 0%, #1b3a5b 50%, #0d1c33 100%)",
+      }}
+    >
+      {/* Constellations en arrière-plan — opacité statique */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        viewBox="0 0 1400 900"
+        preserveAspectRatio="xMidYMid slice"
+        style={{ opacity: 0.18 }}
+        aria-hidden="true"
+      >
+        <g
+          stroke="var(--color-night-star)"
+          strokeWidth="0.8"
+          fill="var(--color-night-star)"
+          opacity="0.7"
+        >
+          <line x1="180" y1="120" x2="240" y2="160" strokeOpacity="0.4" />
+          <line x1="240" y1="160" x2="320" y2="140" strokeOpacity="0.4" />
+          <line x1="320" y1="140" x2="400" y2="180" strokeOpacity="0.4" />
+          <line x1="400" y1="180" x2="450" y2="240" strokeOpacity="0.4" />
+          <line x1="450" y1="240" x2="380" y2="270" strokeOpacity="0.4" />
+          <line x1="380" y1="270" x2="400" y2="180" strokeOpacity="0.4" />
+          {[
+            [180, 120],
+            [240, 160],
+            [320, 140],
+            [400, 180],
+            [450, 240],
+            [380, 270],
+          ].map(([cx, cy], i) => (
+            <circle
+              key={i}
+              cx={cx}
+              cy={cy}
+              r="2"
+              className="star-twinkle"
+              style={{ animationDelay: `${i * 0.3}s` }}
+            />
+          ))}
+        </g>
+        <g
+          stroke="var(--color-night-star)"
+          strokeWidth="0.8"
+          fill="var(--color-night-star)"
+          opacity="0.7"
+        >
+          <line x1="1100" y1="180" x2="1170" y2="260" strokeOpacity="0.4" />
+          <line x1="1170" y1="260" x2="1240" y2="180" strokeOpacity="0.4" />
+          <line x1="1130" y1="350" x2="1190" y2="350" strokeOpacity="0.4" />
+          <line x1="1190" y1="350" x2="1250" y2="350" strokeOpacity="0.4" />
+          <line x1="1170" y1="260" x2="1170" y2="450" strokeOpacity="0.4" />
+          {[
+            [1100, 180],
+            [1170, 260],
+            [1240, 180],
+            [1130, 350],
+            [1190, 350],
+            [1250, 350],
+            [1170, 450],
+          ].map(([cx, cy], i) => (
+            <circle
+              key={i}
+              cx={cx}
+              cy={cy}
+              r="2"
+              className="star-twinkle"
+              style={{ animationDelay: `${i * 0.4}s` }}
+            />
+          ))}
+        </g>
+      </svg>
+
       <div className="relative max-w-[1400px] mx-auto text-loire-pale">
-        {/* En-tête — left-aligned éditorial */}
         <Reveal y={24} duration={0.9} noBlur className="mb-12 md:mb-16 max-w-3xl">
           <EyebrowBadge variant="night" className="mb-5">
             Partenariat Unistellar
@@ -77,18 +133,13 @@ export function AstronomieSection() {
           </p>
         </Reveal>
 
-        {/* Bento : 1 hero card stats + 3 features */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5">
           <AstronomieHeroStats stats={STATS} />
-
           {FEATURES.map((card, i) => (
             <AstronomieFeatureTile key={card.title} card={card} index={i} />
           ))}
         </div>
-
-        {/* CTA Mode Nuit — visible seulement en mode jour */}
-        <AstronomieToggle />
       </div>
-    </AstronomieThemedShell>
+    </section>
   );
 }

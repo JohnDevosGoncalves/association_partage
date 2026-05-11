@@ -89,12 +89,13 @@ export function Hero() {
           className="lg:col-span-4 hidden lg:flex flex-col items-end justify-between h-full pt-2 pb-12"
           aria-hidden="true"
         >
-          <div
-            className="relative"
-            style={{ filter: "drop-shadow(0 8px 32px rgba(0,0,0,0.35))" }}
-          >
-            <BrandLogo size={180} variant="mark" />
-            <span className="absolute -bottom-3 right-0 text-[0.6rem] uppercase tracking-[0.4em] text-loire-pale/70 font-sans whitespace-nowrap">
+          <div className="flex flex-col items-center gap-6">
+            <div
+              style={{ filter: "drop-shadow(0 8px 32px rgba(0,0,0,0.35))" }}
+            >
+              <BrandLogo size={180} variant="mark" />
+            </div>
+            <span className="text-[0.6rem] uppercase tracking-[0.4em] text-loire-pale/75 font-sans whitespace-nowrap text-center">
               Reconnue d'intérêt général
             </span>
           </div>

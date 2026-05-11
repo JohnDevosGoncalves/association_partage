@@ -16,12 +16,17 @@ import { CooperativeFilet } from "./parts/Cooperative/CooperativeFilet";
  *  - <CooperativeFilet> sub-client pour le filet décoratif scaleX.
  */
 
-// IDs Unsplash testés HTTP 200 — sinon CooperativeFilet/section break.
+// Photos Coopérative — en attendant les vraies photos clients,
+// les 2 savons partagent la même photo, les 2 huiles aussi.
+const SAVON_PHOTO =
+  "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=1200&q=80&auto=format&fit=crop";
+const HUILE_PHOTO =
+  "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=1200&q=80&auto=format&fit=crop";
 const PRODUCT_IMAGES = [
-  "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=1200&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=1200&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=1200&q=80&auto=format&fit=crop",
+  SAVON_PHOTO, // Savon au lait de chèvre
+  SAVON_PHOTO, // Savon au lait d'ânesse (idem en attendant)
+  HUILE_PHOTO, // Huile d'olive vierge extra
+  HUILE_PHOTO, // Huile d'argan alimentaire (idem en attendant)
 ];
 
 export function CooperativeSection() {
