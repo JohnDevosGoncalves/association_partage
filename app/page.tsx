@@ -3,6 +3,7 @@ import { Hero } from "@/components/hero/Hero";
 import { HistoireSection } from "@/components/sections/HistoireSection";
 import { BridgeMapSection } from "@/components/sections/BridgeMapSection";
 import { BledisSection } from "@/components/sections/BledisSection";
+import { AccessibiliteSection } from "@/components/sections/AccessibiliteSection";
 import { AstronomieSection } from "@/components/sections/AstronomieSection";
 import { CooperativeSection } from "@/components/sections/CooperativeSection";
 import { KiosqueSection } from "@/components/sections/KiosqueSection";
@@ -21,6 +22,7 @@ export default function Home() {
         <HistoireSection />
         <BridgeMapSection />
         <BledisSection />
+        <AccessibiliteSection />
         <AstronomieSection />
         <CooperativeSection />
         <KiosqueSection />
