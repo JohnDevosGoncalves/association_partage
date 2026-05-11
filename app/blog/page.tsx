@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { Navbar } from "@/components/navigation/Navbar";
 import { Footer } from "@/components/navigation/Footer";
 import { PageHero } from "@/components/ui/PageHero";
@@ -100,8 +101,21 @@ export default async function BlogIndexPage() {
                     href={`/blog/${post.slug}`}
                     className="block grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10"
                   >
-                    {/* Métadonnées — colonne gauche */}
+                    {/* Métadonnées + miniature hero — colonne gauche */}
                     <div className="lg:col-span-3">
+                      {post.hero && (
+                        <div className="relative aspect-[4/3] mb-4 rounded-xl overflow-hidden bg-bridge-ink/5">
+                          <Image
+                            src={post.hero}
+                            alt={post.heroAlt ?? post.title}
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 250px"
+                            className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                            style={{ transitionTimingFunction: "var(--ease-quintet)" }}
+                            quality={75}
+                          />
+                        </div>
+                      )}
                       <p className="text-[0.6rem] uppercase tracking-[0.3em] text-atlas-clay font-sans font-medium">
                         {CATEGORY_LABELS[post.category]}
                       </p>

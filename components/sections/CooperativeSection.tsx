@@ -17,17 +17,14 @@ import { CooperativeFilet } from "./parts/Cooperative/CooperativeFilet";
  *  - <CooperativeFilet> sub-client pour le filet décoratif scaleX.
  */
 
-// Photos Coopérative — en attendant les vraies photos clients,
-// les 2 savons partagent la même photo, les 2 huiles aussi.
-const SAVON_PHOTO =
-  "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=1200&q=80&auto=format&fit=crop";
-const HUILE_PHOTO =
-  "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=1200&q=80&auto=format&fit=crop";
+// Photos Coopérative — vraies photos terrain reçues (mai 2026)
+// Chaque produit a désormais sa photo dédiée, posée sur les rochers du
+// Haut-Atlas avec vallée en arrière-plan.
 const PRODUCT_IMAGES = [
-  SAVON_PHOTO, // Savon au lait de chèvre
-  SAVON_PHOTO, // Savon au lait d'ânesse (idem en attendant)
-  HUILE_PHOTO, // Huile d'olive vierge extra
-  HUILE_PHOTO, // Huile d'argan alimentaire (idem en attendant)
+  "/images/blog/savon-lait-chevre.jpg", // Savon au lait de chèvre
+  "/images/blog/miel.jpg",              // Savon au miel d'altitude
+  "/images/blog/huile-olive.jpg",       // Huile d'olive vierge extra
+  "/images/blog/huile-argan.jpg",       // Huile d'argan alimentaire
 ];
 
 export function CooperativeSection() {

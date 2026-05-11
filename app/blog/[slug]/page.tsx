@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { Navbar } from "@/components/navigation/Navbar";
 import { Footer } from "@/components/navigation/Footer";
@@ -140,6 +141,28 @@ export default async function BlogPostPage({ params }: PageProps) {
             </div>
           </div>
         </header>
+
+        {/* Hero image — affiché uniquement si défini dans le frontmatter */}
+        {post.hero && (
+          <figure className="relative max-w-5xl mx-auto px-5 md:px-6 -mt-2 md:-mt-4">
+            <div className="relative aspect-[16/9] md:aspect-[2/1] rounded-2xl overflow-hidden shadow-[0_30px_60px_-20px_rgba(0,0,0,0.25)]">
+              <Image
+                src={post.hero}
+                alt={post.heroAlt ?? post.title}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 1024px"
+                className="object-cover"
+                quality={85}
+              />
+            </div>
+            {post.heroAlt && (
+              <figcaption className="mt-3 text-center text-xs text-bridge-ink/55 italic font-serif px-4">
+                {post.heroAlt}
+              </figcaption>
+            )}
+          </figure>
+        )}
 
         <Breadcrumb
           trail={[

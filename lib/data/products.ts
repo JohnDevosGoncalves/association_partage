@@ -14,10 +14,10 @@ export const COOPERATIVE_PRODUCTS: Product[] = [
     category: "savon",
   },
   {
-    name: "Savon au lait d'ânesse",
-    origin: "Coopérative du Haut-Atlas",
+    name: "Savon au miel d'altitude",
+    origin: "Ruchers du Haut-Atlas",
     description:
-      "Riche en vitamines A, B et E. Reconnu pour ses vertus régénérantes et anti-âge.",
+      "Saponification à froid enrichie au miel des ruchers de la vallée. Hydratant, antibactérien naturel, parfum subtil de fleurs sauvages.",
     category: "savon",
   },
   {
