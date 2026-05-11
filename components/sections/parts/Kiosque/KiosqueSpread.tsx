@@ -140,12 +140,7 @@ export function KiosqueSpread({ partner, index, reverse }: Props) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.9, delay: 0.15, ease: [0.32, 0.72, 0, 1] }}
-          className={clsx(
-            "mt-8 md:mt-10 grid gap-3 md:gap-4",
-            partner.gallery.length === 2 && "grid-cols-1",
-            partner.gallery.length === 3 && "grid-cols-1 md:grid-cols-2",
-            partner.gallery.length >= 4 && "grid-cols-2 md:grid-cols-4",
-          )}
+          className="mt-8 md:mt-10 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
         >
           {/* On affiche TOUTES les photos restantes (sauf la hero qui est déjà au-dessus) */}
           {partner.gallery.slice(1).map((photo, j) => (
