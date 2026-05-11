@@ -16,11 +16,12 @@ import { CooperativeFilet } from "./parts/Cooperative/CooperativeFilet";
  *  - <CooperativeFilet> sub-client pour le filet décoratif scaleX.
  */
 
+// IDs Unsplash testés HTTP 200 — sinon CooperativeFilet/section break.
 const PRODUCT_IMAGES = [
   "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=1200&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1603189863860-b53fea3a4cd3?w=1200&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=80&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=1200&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1608664735797-3aab64a87aa3?w=1200&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=1200&q=80&auto=format&fit=crop",
 ];
 
 export function CooperativeSection() {
