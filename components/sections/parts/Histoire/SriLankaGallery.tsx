@@ -61,7 +61,7 @@ export function SriLankaGallery() {
           alt={BANNER.alt}
           fill
           sizes="(max-width: 1400px) 100vw, 1400px"
-          quality={82}
+          quality={65}
           className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
           style={{ transitionTimingFunction: "var(--ease-quintet)" }}
         />
@@ -119,7 +119,7 @@ export function SriLankaGallery() {
               alt={photo.alt}
               fill
               sizes="(max-width: 768px) 50vw, 25vw"
-              quality={78}
+              quality={65}
               className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
               style={{ transitionTimingFunction: "var(--ease-quintet)" }}
             />

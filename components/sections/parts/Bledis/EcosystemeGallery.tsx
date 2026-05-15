@@ -71,7 +71,7 @@ export function EcosystemeGallery() {
                   ? "(max-width: 768px) 100vw, 60vw"
                   : "(max-width: 768px) 50vw, 30vw"
               }
-              quality={80}
+              quality={65}
               className="object-cover transition-transform duration-700 group-hover:scale-[1.06]"
               style={{ transitionTimingFunction: "var(--ease-quintet)" }}
             />

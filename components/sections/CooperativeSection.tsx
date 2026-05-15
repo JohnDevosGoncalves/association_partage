@@ -79,7 +79,7 @@ export function CooperativeSection() {
                         fill
                         sizes="(max-width: 1024px) 100vw, 60vw"
                         className="object-cover"
-                        quality={80}
+                        quality={65}
                       />
                       {/* Index numérique flottant */}
                       <div

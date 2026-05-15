@@ -58,7 +58,7 @@ export function KiosqueSpread({ partner, index, reverse }: Props) {
               sizes="(max-width: 1024px) 100vw, 60vw"
               className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
               style={{ transitionTimingFunction: "var(--ease-quintet)" }}
-              quality={85}
+              quality={65}
             />
             {/* Index numérique éditorial */}
             <div
@@ -158,7 +158,7 @@ export function KiosqueSpread({ partner, index, reverse }: Props) {
                 sizes="(max-width: 768px) 50vw, 22vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
                 style={{ transitionTimingFunction: "var(--ease-quintet)" }}
-                quality={80}
+                quality={65}
               />
               <div
                 className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none"

@@ -43,7 +43,7 @@ export function HeroCollage({ images }: HeroCollageProps) {
           priority
           sizes="(max-width: 1024px) 70vw, 30vw"
           className="object-cover"
-          quality={75}
+          quality={65}
         />
         <div
           className="absolute inset-0 pointer-events-none"

@@ -13,7 +13,6 @@ import { Footer } from "@/components/navigation/Footer";
 import { ThermalScrollOverlay } from "@/components/parallax/ThermalScrollOverlay";
 import { ScrollProgress } from "@/components/interactive/ScrollProgress";
 import { Marquee } from "@/components/interactive/Marquee";
-import { PartnersMarquee } from "@/components/interactive/PartnersMarquee";
 
 const MARQUEE_ITEMS = [
   "Orléans",
@@ -43,7 +42,6 @@ export default function Home() {
         <AstronomieSection />
         <CooperativeSection />
         <KiosqueSection />
-        <PartnersMarquee />
         <MecenatSection />
         <ContactSection />
       </main>
