@@ -3,8 +3,11 @@
  * Modifiez ici lors du changement de domaine final.
  */
 
+// Note : on utilise `||` (et non `??`) pour que la chaîne vide retombe
+// aussi sur le fallback — sinon une env var Vercel définie à "" plombe
+// tout le SEO (canonicals, sitemap, OG images) avec une URL invalide.
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://association-partage.fr";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://association-partage.fr";
 
 export const SITE_NAME = "Association Partage";
 
