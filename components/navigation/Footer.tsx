@@ -84,7 +84,7 @@ export function Footer() {
 
         <div className="flex flex-col-reverse md:flex-row md:items-center gap-4 md:gap-6">
           <a
-            href="https://www.websitecarbon.com/website/association-partage-vercel-app/"
+            href="https://www.websitecarbon.com/website/association-partage-fr/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Empreinte carbone — voir le rapport public Website Carbon"
