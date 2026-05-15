@@ -14,14 +14,18 @@ import {
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
-  subsets: ["latin", "latin-ext"],
-  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+  // Seul le weight 300 est effectivement utilisé dans le site (font-light).
+  // font-extralight tombera également sur 300 (closest match), c'est OK.
+  weight: ["300"],
   display: "swap",
 });
 
 const geist = Geist({
   variable: "--font-geist",
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
+  // Variable font : un seul fichier WOFF2 contient tous les poids ;
+  // pas besoin de restreindre comme pour Cormorant.
   display: "swap",
 });
 

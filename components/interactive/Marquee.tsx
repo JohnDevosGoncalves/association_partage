@@ -1,30 +1,20 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { useReducedMotion } from "framer-motion";
-
 type MarqueeProps = {
   items: string[];
-  /** Durée d'un cycle complet en secondes (plus grand = plus lent) */
+  /** Durée d'un cycle complet en secondes (plus grand = plus lent). */
   duration?: number;
-  /** Inverse le sens de défilement */
-  reverse?: boolean;
 };
 
 /**
- * Bandeau marquee infini — défilement horizontal continu sans saccade.
+ * Bandeau marquee infini — pure CSS, server component, zéro JS.
  *
- * Technique : on duplique la liste et on translate de -50% (puisque la liste
- * dupliquée occupe le double de la largeur d'origine, -50% = exactement la
- * première liste hors écran, la deuxième prend sa place de façon transparente).
+ * Technique : on duplique la liste et on translate de -50% via une
+ * keyframe CSS continue. Pas besoin de framer-motion pour une animation
+ * linéaire infinie.
  *
- * Respecte `prefers-reduced-motion` : si activé, le bandeau reste statique.
- *
- * Usage typique : marquer une continuité narrative (lieux, dates, valeurs)
- * sous le Hero ou entre deux sections fortes.
+ * Respecte `prefers-reduced-motion` : animation désactivée si l'utilisateur
+ * a coché cette préférence dans son système.
  */
-export function Marquee({ items, duration = 40, reverse = false }: MarqueeProps) {
-  const shouldReduceMotion = useReducedMotion();
+export function Marquee({ items, duration = 40 }: MarqueeProps) {
   const sequence = [...items, ...items];
 
   return (
@@ -51,26 +41,9 @@ export function Marquee({ items, duration = 40, reverse = false }: MarqueeProps)
         aria-hidden="true"
       />
 
-      <motion.div
-        className="flex gap-10 md:gap-16 whitespace-nowrap will-change-transform"
-        animate={
-          shouldReduceMotion
-            ? undefined
-            : {
-                x: reverse ? ["−50%", "0%"] : ["0%", "-50%"],
-              }
-        }
-        transition={
-          shouldReduceMotion
-            ? undefined
-            : {
-                x: {
-                  duration,
-                  repeat: Infinity,
-                  ease: "linear",
-                },
-              }
-        }
+      <div
+        className="marquee-track flex gap-10 md:gap-16 whitespace-nowrap"
+        style={{ "--marquee-duration": `${duration}s` } as React.CSSProperties}
       >
         {sequence.map((item, i) => (
           <span
@@ -84,7 +57,7 @@ export function Marquee({ items, duration = 40, reverse = false }: MarqueeProps)
             />
           </span>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }

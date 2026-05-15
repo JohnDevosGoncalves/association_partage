@@ -56,7 +56,7 @@ export function PartnerLogo({
             WHITE_PARTNER_LOGOS.has(slug) && "brightness-0 opacity-80",
           )}
           onError={() => setErrored(true)}
-          unoptimized
+          loading="lazy"
         />
       )}
     </div>

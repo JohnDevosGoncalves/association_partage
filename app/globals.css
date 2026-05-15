@@ -216,10 +216,26 @@
   filter: blur(0);
 }
 
+/* Marquee horizontal infini — pure CSS, no JS.
+   Le sequence DOM duplique le contenu une fois, et on translate -50%
+   pour boucler invisiblement. */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee-scroll var(--marquee-duration, 40s) linear infinite;
+  will-change: transform;
+}
+.group\/marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
 /* Accessibilité : respecter prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   .morph-bridge,
-  .star-twinkle {
+  .star-twinkle,
+  .marquee-track {
     animation: none;
   }
   .reveal-on-scroll {

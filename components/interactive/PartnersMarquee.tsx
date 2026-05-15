@@ -1,8 +1,5 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
 import clsx from "clsx";
 import {
   EXTENDED_PARTNERS,
@@ -18,18 +15,16 @@ type PartnersMarqueeProps = {
 };
 
 /**
- * Bandeau marquee infini des logos partenaires.
+ * Bandeau marquee infini des logos partenaires — pure CSS, server component.
  *
- * Variante visuelle du Marquee texte : ici on défile les 16 logos avec une
- * hauteur uniforme et un espacement régulier. Pause au hover. Lien explicite
- * vers /partenaires en titre de section pour la découverte complète.
+ * Aucun framer-motion ni useState : l'animation est une keyframe CSS qui
+ * translate de -50% en continu. Pause au survol via `:hover`. Logos
+ * lazy-loadés par Next/Image (ils sont sous la ligne de flottaison).
  */
 export function PartnersMarquee({
   duration = 60,
   logoHeight = 44,
 }: PartnersMarqueeProps) {
-  const shouldReduceMotion = useReducedMotion();
-
   const items = EXTENDED_PARTNERS.filter((p) => getPartnerLogoSrc(p.slug));
   const sequence = [...items, ...items];
 
@@ -82,18 +77,9 @@ export function PartnersMarquee({
           aria-hidden="true"
         />
 
-        <motion.div
-          className="flex items-center gap-12 md:gap-20 whitespace-nowrap will-change-transform group-hover/marquee:[animation-play-state:paused]"
-          animate={
-            shouldReduceMotion ? undefined : { x: ["0%", "-50%"] }
-          }
-          transition={
-            shouldReduceMotion
-              ? undefined
-              : {
-                  x: { duration, repeat: Infinity, ease: "linear" },
-                }
-          }
+        <div
+          className="marquee-track flex items-center gap-12 md:gap-20 whitespace-nowrap"
+          style={{ "--marquee-duration": `${duration}s` } as React.CSSProperties}
         >
           {sequence.map((p, i) => {
             const src = getPartnerLogoSrc(p.slug)!;
@@ -117,12 +103,12 @@ export function PartnersMarquee({
                     isWhite && "brightness-0",
                   )}
                   style={{ height: logoHeight }}
-                  unoptimized
+                  loading="lazy"
                 />
               </a>
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
